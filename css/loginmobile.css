@@ -1,0 +1,14 @@
+@media screen and (max-width: 800px) {
+    main form{
+        width: 75%;
+    }
+    ul{
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        text-align: center;
+    }
+    ul li{
+        padding: 5px;
+    }
+}

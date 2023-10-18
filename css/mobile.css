@@ -1,0 +1,63 @@
+@media screen and (max-width: 900px) {
+    
+    *{
+        margin: 0;
+        padding: 0;
+
+    }
+
+    .weird{
+        border: none;
+        margin: 0;
+        padding: 0;
+        border-radius:0;
+    }
+    main{
+        margin: 0;
+        padding: 0;
+    }
+
+    ul a{
+        padding: 10px;
+    }
+
+    .banner{
+        top: 10%;
+        padding: 20px;
+    }
+
+    .hero img{
+        margin-top: 100px;
+        max-width: 400px;
+        margin-bottom: 100px;
+    }
+
+    main section{
+        padding: 0;
+        text-align: center;
+    
+    }
+
+    .banner1 img{
+        max-width: 200px;
+        top: 50%;
+        left: 20%;
+    }
+    section{
+        flex-direction: column-reverse
+    }
+    .upgrades{
+        margin-top: 40px;
+        gap: 4px;
+    }
+    .reviews{
+        margin-bottom: 50px;
+    }
+
+    footer{
+        margin-top: 50px;
+        padding: 10px;
+    }
+
+  
+}
