@@ -27,7 +27,7 @@
             
             <form method='post' action="/phpmotors/vehicles/index.php?action=post">
                 <label for="carClassification" >Car Classification
-                    <input type="text" name="carClassification" id="carClassification">
+                    <input type="text" name="carClassification" id="carClassification"  pattern="[A-Za-z]{3,30}" <?php if(isset($carClassfication)){echo "value='$carClassfication'";}?> required >
 
                 </label>
                 <button type="submit">Add classification</button>

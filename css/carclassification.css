@@ -21,6 +21,22 @@ body{
     margin: 0 auto;
 }
 
+input:focus:invalid {
+    outline: none;
+    border: none;
+    box-shadow: 0 0 5px #d76f4c;
+    transition: .3s ease-in-out;
+    /* border: 2px solid red; */
+}
+
+input:focus:valid{
+    outline: none;
+    border: none;
+    box-shadow: 0 0 5px #4ca6d7;
+    transition: .3s ease-in-out;
+
+}
+
 .message{
     text-align: center;
     padding: 20px;

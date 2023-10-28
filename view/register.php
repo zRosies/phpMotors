@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account | Register</title>
-    <link rel="stylesheet" href="/phpmotors/css/regi.css">
-    <link rel="stylesheet" href="/phpmotors/css/loginmobile.css">
+    <link rel="stylesheet" href="/phpmotors/css/regi.css?<?php echo time()?>">
+    <link rel="stylesheet" href="/phpmotors/css/loginmobile.css?<?php echo time()?>">
 </head>
 <body>
  <div class='weird'>
@@ -27,18 +27,18 @@
             
             <h1>Register</h1>
             <label for="firstName">First name <span>*</span>
-                <input name="clientFirstName" id="firstName" type="text"  placeholder="eg: Ana">
+                <input name="clientFirstName" id="firstName" type="text" placeholder="eg: Ana" <?php if(isset($clientFirstname)){echo "value='$clientFirstname'";}?> required>
             </label>
             <label for="lastName">Last name <span>*</span>
-                <input name="clientLastName" id="lastName" type="text" placeholder="eg: Swift">
+                <input name="clientLastName" id="lastName" type="text"required placeholder="eg: Swift" <?php if(isset($clientFirstname)){echo "value='$clientLastname'";}  ?>>
             </label>
             <label for="email">Email <span>*</span>
-                <input name="clientEmail" id="email" type="email"  placeholder="eg: yourname@gmail.com">
+                <input name="clientEmail" id="email" type="email" required placeholder="eg: yourname@gmail.com" <?php if(isset($clientFirstname)){echo "value='$clientEmail'";}  ?>>
             </label>
             <label for="password" >Password <span>*</span>
-                <input name="clientPassword" id="password" type="password" placeholder="eg: myPassword2$">
+                <input name="clientPassword" id="password" type="password" required pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" placeholder="eg: myPassword2$">
+                <span id='span'>Your password must be at least 8 characters and contain at least 1 number, 1 capital letter and 1 special character</span> 
             </label>
-            <p>You password must include (8) characters, (1) number, (1) capital letter, and (1) special chracter.</p>
             <button type="submit">Register</button>
             <input type="hidden" name="action" value="register">
         </form>

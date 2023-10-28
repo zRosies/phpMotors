@@ -122,7 +122,10 @@ main form{
     position: relative;
 }
 
-
+#span{
+    font-size: 1em;
+    color: #000;
+}
 
 main form input{
     width: 100%;
@@ -133,7 +136,29 @@ main form input{
    
 }
 
-form p{
+/* input:required:invalid, input:focus:invalid {
+  border: 2px solid red;
+} */
+
+
+input:focus:invalid {
+    outline: none;
+    border: none;
+    box-shadow: 0 0 5px #d76f4c;
+    transition: .3s ease-in-out;
+    /* border: 2px solid red; */
+}
+
+input:focus:valid{
+    outline: none;
+    border: none;
+    box-shadow: 0 0 5px #4ca6d7;
+    transition: .3s ease-in-out;
+
+}
+
+
+form span{
     /* margin: 0; */
     margin-top: 10px;
     text-align: center;

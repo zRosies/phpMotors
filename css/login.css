@@ -139,6 +139,25 @@ main form input{
    
 }
 
+input:focus:invalid {
+    outline: none;
+    border: none;
+    box-shadow: 0 0 5px #d76f4c;
+    transition: .3s ease-in-out;
+    /* border: 2px solid red; */
+}
+
+input:focus:valid{
+    outline: none;
+    border: none;
+    box-shadow: 0 0 5px #4ca6d7;
+    transition: .3s ease-in-out;
+
+}
+
+
+
+
 form p{
     margin: 0;
     margin-top: 10px;

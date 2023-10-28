@@ -16,24 +16,24 @@
        ?>
 
     </header>
-    <main>
+    <main>   
         <?php
-        if(isset($message)){
-            echo $message;
+            if(isset($message)){
+                echo $message;
 
-        }
-        
+            }
         ?>
         
-        <form action="">
+        <form action="/phpmotors/accounts/index.php" method='post'>
             <h1>Sign In</h1>
             <label for="clientEmail">Email :
-                <input name=clientEmail id="clientEmail" type="email"  required>
+                <input name=clientEmail id="clientEmail" type="email" <?php if(isset($clientEmail)){echo "value='$clientEmail'";}?> required>
             </label>
             <label for="clientPassword" >Password :
-                <input name=clientPassword id="clientPassword" type="password"  required>
+                <input name=clientPassword id="clientPassword" type="password" pattern='(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' required >
             </label>
-            <button type="submit">Login</button>
+            <button type="submit" name="login">Login</button>
+            <input type="hidden" name='action' value='login'>
             <p>or</p>
             <p>Not registered? <span><a href="/phpmotors/accounts/index.php?action=register">Sign up for free</a></span></p>
             

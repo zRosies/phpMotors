@@ -2,22 +2,11 @@
 require_once '../library/connections.php';
 require_once '../model/main-model.php';
 require_once '../model/accounts-model.php';
-
-$classifications = getClassifications();
-
+require_once '../library/functions.php';
 
 
-    
-    $navList= '<ul>';
-    $navList .= "<li><a href='/phpmotors/index.php' title='View the PHP Motors home page'> Home </a></li>";
 
-    foreach ($classifications as $classification) {
-    $navList .= "<li><a href='/phpmotors/index.php?action=".urlencode($classification['classificationName'])."' title='View our $classification[classificationName] product line'>$classification[classificationName]</a></li>";
-   }
-
-   $navList .= '</ul>';
-
-
+   $navList = navigation();
 
 
     $action= filter_input(INPUT_POST,'action');
@@ -28,20 +17,29 @@ $classifications = getClassifications();
 
 
     switch($action){
-      
+        
         case 'register':
-            $clientFirstname = filter_input(INPUT_POST, 'clientFirstName');
-            $clientLastname = filter_input(INPUT_POST, 'clientLastName');
-            $clientEmail = filter_input(INPUT_POST, 'clientEmail');
-            $clientPassword = filter_input(INPUT_POST, 'clientPassword');
+        $clientFirstname =trim( filter_input(INPUT_POST, 'clientFirstName',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $clientLastname = trim(filter_input(INPUT_POST, 'clientLastName',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $clientEmail = trim(filter_input(INPUT_POST, 'clientEmail', FILTER_SANITIZE_EMAIL));
+        $clientPassword = trim(filter_input(INPUT_POST, 'clientPassword',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 
-            if(empty($clientFirstname) || empty($clientLastname) ||empty($clientEmail) || empty($clientPassword)){
+        $clientEmail = checkEmail($clientEmail);
+        $checkPassword = checkPassword($clientPassword);
+        $hashedPassword = password_hash($checkPassword, PASSWORD_DEFAULT);
+
+            if(empty($checkPassword) ){
+                $message = "<p class='response'> Please provide information for all empty fields. </p> ";
+                include '../view/register.php';
+                exit;
+            }
+            else if(empty($clientFirstname) || empty($clientLastname) || empty($clientEmail) || empty($hashedPassword)){
                 $message = "<p class='response'> Please provide information for all empty fields. </p> ";
                 include '../view/register.php';
                 exit;
             }
 
-            $regOutcome = regClient($clientFirstname, $clientLastname, $clientEmail, $clientPassword);
+            $regOutcome = regClient($clientFirstname, $clientLastname, $clientEmail, $hashedPassword);
 
             // echo $regOutcome;
 
@@ -64,9 +62,24 @@ $classifications = getClassifications();
             break;
 
 
-            case 'login':
-            include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/login.php';
-            break;
+        case 'login':
+            $clientEmail =trim(filter_input(INPUT_POST, 'clientEmail',FILTER_SANITIZE_EMAIL));
+            $clientPassword =trim(filter_input(INPUT_POST, 'clientPassword',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+
+            $cheackPassword = checkPassword($clientPassword);
+            $checkEmail = checkEmail($clientEmail);
+
+            if(empty($checkEmail) || empty($checkPassword)){
+                $message = "<p class='response'> Please provide information for all empty fields. </p> ";
+                include '../view/login.php';
+                exit;
+            }
+               
+                
+            // include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/login.php';
+
+           
+        break;
 
      
 
