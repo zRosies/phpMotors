@@ -102,8 +102,6 @@ require_once '../library/functions.php';
 
             }
 
-            //no need for price, stock, and description
-
 
            
             if(empty($invMake) || empty($invModel) || empty($invDescription) || empty($invImage) || empty($invThumbnail) || empty($invPrice) || empty($invStock) || empty($invColor) || empty($invclassificationId)){
