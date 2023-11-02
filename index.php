@@ -37,10 +37,10 @@ $action= filter_input(INPUT_POST,'action');
    
   
 
-    if(isset($_COOKIE['firstname'])){
-        $cookieFirstname = filter_input(INPUT_COOKIE, 'firstname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        // echo $cookieFirstname;
-    }
+    // if(isset($_COOKIE['firstname'])){
+    //     $cookieFirstname = filter_input(INPUT_COOKIE, 'firstname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    //     // echo $cookieFirstname;
+    // }
 
    
 

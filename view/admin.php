@@ -31,18 +31,18 @@
     <main>
         <h3></h3>
             <?php
-                 if(isset($cookieFirstname) || isset($cookieLastname) || isset($cookieEmail) ){
+                 if(true){
                     echo "
                    
 
                     <div class = 'info'>
-                        <h1>$cookieFirstname $cookieLastname </h1>
+                        <h1>$firstName $lastName </h1>
 
                         <h3>You are logged in: </h3>
 
-                        <p class='welcome'>First Name:$cookieFirstname </p> 
-                        <p> Last Name: $cookieLastname</p>
-                        <p>Email: $cookieEmail </p>
+                        <p class='welcome'>First Name:$firstName </p> 
+                        <p> Last Name: $lastName</p>
+                        <p>Email: $email </p>
                     
                     </div>";
                 }
@@ -50,7 +50,7 @@
                 if(true){
                     echo "<h3>Inventory Management</h3>
                         <p> Use this link to manage the inventory </p>
-                        <a href='/phpmotors/inventory/index.php?action=MANAGE'>Vhicle Management</a>
+                        <a href='/phpmotors/inventory/index.php?action=manage'>Vhicle Management</a>
                     ";
 
                 }

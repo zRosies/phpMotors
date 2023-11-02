@@ -14,7 +14,9 @@ require_once '../library/functions.php';
     }  
     // echo($action);
 
-    if(isset($_SESSION['loggedin'])){
+    //Checking if the user is logged in! If the users is logged in it will not stop the logout action.
+
+    if(isset($_SESSION['loggedin']) && $action != 'logout'){
         if($_SESSION['loggedin']){
 
             $action = 'logged';
@@ -22,11 +24,11 @@ require_once '../library/functions.php';
        
     }
 
-    if(isset($_COOKIE['firstname']) || isset($_COOKIE['lastname']) || isset($_COOKIE['email'])){
-        $cookieFirstname = filter_input(INPUT_COOKIE, 'firstname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $cookieLastname = filter_input(INPUT_COOKIE, 'lastname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $cookieEmail = filter_input(INPUT_COOKIE, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-     }
+
+    $firstName = isset($_SESSION['clientFirstname']) ? $_SESSION['clientFirstname'] : '';
+    $lastName = isset($_SESSION['clientLastname']) ? $_SESSION['clientLastname'] : '';
+    $email = isset($_SESSION['clientEmail']) ? $_SESSION['clientEmail'] : '';
+
 
   
 
@@ -129,13 +131,25 @@ require_once '../library/functions.php';
         
                $_SESSION['loggedin'] = TRUE;
 
-               $clientFirstname = $clientData['clientFirstname'];
+               $_SESSION['clientFirstname'] = $clientData['clientFirstname'];
+               $_SESSION['clientLastname'] = $clientData['clientLastname'];
+               $_SESSION['clientEmail'] = $clientData['clientEmail'];
+               
+               $_SESSION['clientFirstname'];
+               
+        
+                $_SESSION['clientLastname'];
+               
+     
+               $_SESSION['clientEmail'];
 
-               $_SESSION['clientFirstname'] = $clientFirstname;
+               echo " $firstName $lastName $email ";
 
-               setcookie('firstname', $clientFirstname, strtotime('+1 year'), '/');
-               setcookie('lastname', $clientData['clientLastname'], strtotime('+1 year'), '/');
-               setcookie('email', $clientData['clientEmail'], strtotime('+1 year'), '/');
+           
+
+            //    setcookie('firstname', $clientFirstname, strtotime('+1 year'), '/');
+            //    setcookie('lastname', $clientData['clientLastname'], strtotime('+1 year'), '/');
+            //    setcookie('email', $clientData['clientEmail'], strtotime('+1 year'), '/');
          
                array_pop($clientData);
                // Store the array into the session
@@ -152,8 +166,17 @@ require_once '../library/functions.php';
             include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/admin.php';
             break;
 
-        case'logout':
+        case 'logout':
+
+            session_unset();
+            session_destroy();
+
+            foreach($_COOKIE as $cookieName => $cookieValue){
+                setcookie($cookieName,'',1,'/');
+            }
+
             
+           include header('Location: /phpmotors/?action=home');;
             break;
         
         case 'manage':
