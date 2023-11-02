@@ -8,9 +8,14 @@ session_start();
 $classifications = getClassifications();
 $navList = navigation();
 
-if(isset($_COOKIE['firstname'])){
-    $cookieFirstname = filter_input(INPUT_COOKIE, 'firstname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
- }
+// if(isset($_COOKIE['firstname'])){
+//     $cookieFirstname = filter_input(INPUT_COOKIE, 'firstname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+//  }
+if(isset($_SESSION['clientFirstname'])){
+    $firstName = isset($_SESSION['clientFirstname']) ? $_SESSION['clientFirstname'] : '';
+
+}
+
 
 // var_dump($classifications);
 

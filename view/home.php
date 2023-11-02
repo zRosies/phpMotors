@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="weird">
-    <header>
+    <header>  
        <?php
             include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/common/header.php';
           

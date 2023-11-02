@@ -24,8 +24,13 @@ require_once '../library/functions.php';
        
     }
 
+    
+
     // checking if the variables exist in the session with ternary elements
-    $firstName = isset($_SESSION['clientFirstname']) ? $_SESSION['clientFirstname'] : '';
+    if(isset($_SESSION['clientFirstname'])){
+        $firstName = isset($_SESSION['clientFirstname']) ? $_SESSION['clientFirstname'] : '';
+    
+    }
     $lastName = isset($_SESSION['clientLastname']) ? $_SESSION['clientLastname'] : '';
     $email = isset($_SESSION['clientEmail']) ? $_SESSION['clientEmail'] : '';
     $clientLevel = isset($_SESSION['clientLevel']) ? (int)$_SESSION['clientLevel'] : 0;
@@ -128,9 +133,9 @@ require_once '../library/functions.php';
                 // If the hashes don't match create an error
                 // and return to the login view
                 if(!$hashCheck) {
-                $message = '<p class="response">Please check your password and try again.</p>';
-                include '../view/login.php';
-                exit;
+                    $message = '<p class="response">Please check your password and try again.</p>';
+                    include '../view/login.php';
+                    exit;
                 }
 
         

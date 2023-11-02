@@ -8,12 +8,33 @@
 </head>
 <body>
 <div class='weird'>
-   <header>
-       <?php
-            include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/common/header.php'
-       ?>
+<header>
 
-    </header>
+<div class="account">
+
+
+    <a href="/phpmotors/index.php"><img src="/phpmotors/images/site/logo.png" alt="logo"></a>
+        <?php
+            if(isset($firstName)){
+                echo "<p class='response'>Welcome, $firstName </p>";
+            }
+        ?>
+    <div class='log'>
+        <?php
+            if(isset($firstName)){
+                echo "<p class='welcome'>$firstName </p>";
+            }
+        ?>
+        <a class='logout' href="/phpmotors/accounts/index.php?action=logout">Log out</a>
+        
+    </div>
+</div>
+
+<?php
+    include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/common/nav.php';
+?>
+
+</header>
     <main>
         <?php
             if(isset($message)){

@@ -1,10 +1,10 @@
 <div class="account">
     <a href="/phpmotors/index.php"><img src="/phpmotors/images/site/logo.png" alt="logo"></a>
-    <?php
-          if(isset($cookieFirstname)){
-            echo "<p class='welcome'>Welcome, $cookieFirstname!</p>";
-        }
-    ?>
+        <?php
+            if(isset($firstName)){
+                echo "<p class='response'>Welcome, $firstName </p>";
+            }
+        ?>
     <a href="/phpmotors/accounts/index.php?action=login">My account</a>
 </div>
 

@@ -31,6 +31,10 @@ require_once '../library/functions.php';
         include header('Location: /phpmotors/?action=home');
        
     }
+    if(isset($_SESSION['clientFirstname'])){
+        $firstName = isset($_SESSION['clientFirstname']) ? $_SESSION['clientFirstname'] : '';
+    
+    }
 
     
     
