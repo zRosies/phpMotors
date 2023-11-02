@@ -24,13 +24,18 @@ require_once '../library/functions.php';
        
     }
 
-
+    // checking if the variables exist in the session with ternary elements
     $firstName = isset($_SESSION['clientFirstname']) ? $_SESSION['clientFirstname'] : '';
     $lastName = isset($_SESSION['clientLastname']) ? $_SESSION['clientLastname'] : '';
     $email = isset($_SESSION['clientEmail']) ? $_SESSION['clientEmail'] : '';
+    $clientLevel = isset($_SESSION['clientLevel']) ? (int)$_SESSION['clientLevel'] : 0;
 
+    $showAdminView = FALSE;
 
-  
+    if($clientLevel > 1){
+        $showAdminView = TRUE;
+    }
+
 
 
     switch($action){
@@ -134,28 +139,22 @@ require_once '../library/functions.php';
                $_SESSION['clientFirstname'] = $clientData['clientFirstname'];
                $_SESSION['clientLastname'] = $clientData['clientLastname'];
                $_SESSION['clientEmail'] = $clientData['clientEmail'];
+
+               $_SESSION['clientLevel'] = $clientData['clientLevel'];
                
-               $_SESSION['clientFirstname'];
+            //    $_SESSION['clientFirstname'];
                
         
-                $_SESSION['clientLastname'];
+            //     $_SESSION['clientLastname'];
                
      
-               $_SESSION['clientEmail'];
-
-               echo " $firstName $lastName $email ";
-
-           
-
-            //    setcookie('firstname', $clientFirstname, strtotime('+1 year'), '/');
-            //    setcookie('lastname', $clientData['clientLastname'], strtotime('+1 year'), '/');
-            //    setcookie('email', $clientData['clientEmail'], strtotime('+1 year'), '/');
+            //    $_SESSION['clientEmail'];
          
                array_pop($clientData);
-               // Store the array into the session
+              
                $_SESSION['clientData'] = $clientData;
-               // Send them to the admin view
-               include '../view/admin.php';
+              
+               include header('Location: /phpmotors/accounts/index.php?action=login');
                exit;
         break;
                
@@ -176,21 +175,13 @@ require_once '../library/functions.php';
             }
 
             
-           include header('Location: /phpmotors/?action=home');;
-            break;
-        
-        case 'manage':
-            break;
+            include header('Location: /phpmotors/?action=home');
+             break;
     
 
      
 
-       
-        // default:
-        //         '';
-                // include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/500.php';  
-        
-        //sending the path to 500 if the action neither is register or login :) but it should be empty for now              
+             
 
 
     }

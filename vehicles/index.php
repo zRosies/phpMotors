@@ -12,16 +12,28 @@ require_once '../library/functions.php';
 
     $navList = navigation();
 
-   //Passing the classificationName and ClassificationID into the option select
+    //Passing the classificationName and ClassificationID into the option select
 
-   $options= '';
+    $options= '';
 
-   foreach($classificationID as $classification){
-       $options .=  "<option value='$classification[classificationId]'>$classification[classificationName]</option>";
+    foreach($classificationID as $classification){
+        $options .=  "<option value='$classification[classificationId]'>$classification[classificationName]</option>";
 
-   
+    
+        
+    }
+
+    $clientLevel = isset($_SESSION['clientLevel']) ? (int)$_SESSION['clientLevel'] : 0;
+
+    //Extra points here \/
+    //checking if the user is logged in and the client level is  > 2 before proceeding
+    if(!isset($_SESSION['loggedin']) || $clientLevel < 2){
+        include header('Location: /phpmotors/?action=home');
        
-   }
+    }
+
+    
+    
 
     $action= filter_input(INPUT_POST,'action');
     if($action == NULL){

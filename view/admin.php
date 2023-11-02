@@ -14,8 +14,8 @@
     <a href="/phpmotors/index.php"><img src="/phpmotors/images/site/logo.png" alt="logo"></a>
     <div class='log'>
         <?php
-             if(isset($cookieFirstname)){
-                echo "<p class='welcome'>$cookieFirstname </p>";
+             if(isset($firstName)){
+                echo "<p class='welcome'>$firstName </p>";
             }
         ?>
         <a class='logout' href="/phpmotors/accounts/index.php?action=logout">Log out</a>
@@ -40,17 +40,18 @@
 
                         <h3>You are logged in: </h3>
 
-                        <p class='welcome'>First Name:$firstName </p> 
+                        <p class='welcome'>First Name: $firstName </p> 
                         <p> Last Name: $lastName</p>
                         <p>Email: $email </p>
                     
                     </div>";
                 }
 
-                if(true){
+                if($showAdminView){
+                    
                     echo "<h3>Inventory Management</h3>
-                        <p> Use this link to manage the inventory </p>
-                        <a href='/phpmotors/inventory/index.php?action=manage'>Vhicle Management</a>
+                        <p> Use this link to manage the inventory</p>
+                        <a href='/phpmotors/vehicles/'>Vehicle Management</a>
                     ";
 
                 }
