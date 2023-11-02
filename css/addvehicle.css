@@ -38,6 +38,11 @@ body{
     margin: 0 auto;
 }
 
+header a:hover{
+    color: #939292;
+
+}
+
 input:focus:invalid {
     outline: none;
     border: none;

@@ -198,6 +198,11 @@ main form button:hover{
     background: #3a3a3a;
 }
 
+header a:hover{
+    color: #939292;
+
+}
+
 .response{
       box-shadow: 2px 2px 5px #000;
       padding: 20px;

@@ -13,7 +13,9 @@
    <header>
        <?php
             include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/common/header.php'
+            
        ?>
+      
 
     </header>
     <main>   
@@ -22,9 +24,14 @@
                 echo $message;
 
             }
+            else if(isset($_SESSION['message'])){
+                echo $_SESSION['message'];
+
+            }
+        
         ?>
         
-        <form action="/phpmotors/accounts/index.php" method='post'>
+        <form action="/phpmotors/accounts/" method='post'>
             <h1>Sign In</h1>
             <label for="clientEmail">Email :
                 <input name=clientEmail id="clientEmail" type="email" <?php if(isset($clientEmail)){echo "value='$clientEmail'";}?> required>

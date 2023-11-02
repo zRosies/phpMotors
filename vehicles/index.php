@@ -5,7 +5,7 @@ require_once '../model/vehicles-model.php';
 require_once '../library/functions.php';
 
 
-
+    session_start();
     $classifications = getClassifications();
     $classificationID =  getClassificationID();
 
