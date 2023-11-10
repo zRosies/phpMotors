@@ -81,5 +81,18 @@ function getInvItemInfo($invId){
     return $invInfo;
    }
 
+   function getUserInfo($clientEmail) {
+    $db = phpmotorsConnect();
+    $sql = 'SELECT * FROM clients WHERE clientEmail = :clientEmail';
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':clientEmail', $clientEmail, PDO::PARAM_STR);
+    $stmt->execute();
+    $invInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    return $invInfo;
+}
+
+
+
 ?>
 

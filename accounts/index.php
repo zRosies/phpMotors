@@ -11,12 +11,16 @@ require_once '../library/functions.php';
     $action= filter_input(INPUT_POST,'action');
     if($action == NULL){
         $action= filter_input(INPUT_GET, 'action');
-    }  
+    } 
+    
+  
     // echo($action);
 
     //Checking if the user is logged in! If the users is logged in it will not stop the logout action.
 
-    if(isset($_SESSION['loggedin']) && $action != 'logout'){
+    //look this if the controlers is not working properly
+
+    if(isset($_SESSION['loggedin']) && $action != 'logout' && $action != 'update'){
         if($_SESSION['loggedin']){
 
             $action = 'logged';
@@ -35,6 +39,7 @@ require_once '../library/functions.php';
     $email = isset($_SESSION['clientEmail']) ? $_SESSION['clientEmail'] : '';
     $clientLevel = isset($_SESSION['clientLevel']) ? (int)$_SESSION['clientLevel'] : 0;
 
+    $clientLevel = 5;
     $showAdminView = FALSE;
 
     if($clientLevel > 1){
@@ -182,7 +187,47 @@ require_once '../library/functions.php';
             
             include header('Location: /phpmotors/?action=home');
              break;
-    
+        case 'update':
+            // echo 'AAAAAAAAAAAAAAAAAAAAAA';
+                $clientEmail = filter_input(INPUT_GET, 'clientEmail', FILTER_SANITIZE_EMAIL);
+                // echo $clientEmail;
+                $result = getUserInfo($clientEmail);
+                if (count($result) < 1) {
+                    $message = 'Sorry, no user information found.';
+                }
+                include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/client-update.php';
+        
+                break;
+        case 'updateaccount':
+            $clientFirstname =trim( filter_input(INPUT_POST, 'clientFirstName',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+            $clientLastname = trim(filter_input(INPUT_POST, 'clientLastName',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+            $clientEmail = trim(filter_input(INPUT_POST, 'clientEmail', FILTER_SANITIZE_EMAIL));
+
+            $existingEmail = checkExistingEmail($clientEmail); 
+        
+            if($existingEmail){
+                $message = '<p class="response">That email address already exists. Do you want to login instead?</p>';
+                include '../view/login.php';
+                exit;
+            } 
+
+      
+
+            $clientEmail = checkEmail($clientEmail);
+            $checkPassword = checkPassword($clientPassword);
+            $hashedPassword = password_hash($clientPassword, PASSWORD_DEFAULT);
+
+            if(empty($checkPassword) ){
+                $message = "<p class='response'> Please provide information for all empty fields. </p> ";
+                include '../view/register.php';
+                exit; 
+            }
+            else if(empty($clientFirstname) || empty($clientLastname) || empty($clientEmail) || empty($hashedPassword)){
+                $message = "<p class='response'> Please provide information for all empty fields. </p> ";
+                include '../view/register.php';
+                exit;
+            }
+
 
      
 

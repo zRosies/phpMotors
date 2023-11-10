@@ -47,6 +47,10 @@
             if(isset($message)){
                 echo $message;
             }
+
+            if (isset($_SESSION['message'])) {
+                $message = $_SESSION['message'];
+               }
             
         ?>
         <ul>
@@ -59,9 +63,6 @@
             </li>
         </ul>
         <?php
-                if (isset($message)) { 
-                echo $message; 
-                } 
                 if (isset($classificationList)) { 
                 echo '<h2>Vehicles By Classification</h2>'; 
                 echo '<p>Choose a classification to see those vehicles</p>'; 
@@ -88,3 +89,5 @@
     
 </body>
 </html>
+
+<?php unset($_SESSION['message']); ?>

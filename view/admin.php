@@ -36,22 +36,30 @@
 
     </header>
     <main>
+    
+
             <?php
                  if(true){
                     echo "
-                   
-
-                    <div class = 'info'>
-                        <h1>$firstName $lastName </h1>
-
+                    <div class='info'>
+                        <h1>{$firstName} {$lastName}</h1>
+                
                         <h3>You are logged in: </h3>
-
-                        <p class='welcome'>First Name: $firstName </p> 
-                        <p> Last Name: $lastName</p>
-                        <p>Email: $email </p>
-                    
+                
+                        <p class='welcome'>First Name: {$firstName} </p> 
+                        <p>Last Name: {$lastName}</p>
+                        <p>Email: {$email}</p>
+                
+                        <h3>Use this link to update your account information</h3> 
+                        <a href= '../accounts/index.php?action=update&clientEmail=$email'
+                   
+                   >
+                
+                   Update</a> 
+                       
                     </div>";
                 }
+               
 
                 if($showAdminView){
                     
@@ -61,7 +69,10 @@
                     ";
 
                 }
-            ?>  
+            ?>
+         
+
+           
      <!-- <a href="">testando</a> -->
 
     

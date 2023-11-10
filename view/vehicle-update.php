@@ -56,7 +56,7 @@
         
             </h1>
         
-        <form action="/phpmotors/vehicles/index.php?action=postcar" method="post" >
+        <form action='/phpmotors/vehicles/index.php?action=updateVehicle' method="post" >
           
 
       
@@ -116,7 +116,11 @@
                 ?> required>
             </label>
 
-            <button type='submit'>Add car</button>
+            <button type='submit'>Update car</button>
+            <input type="hidden" name="invId" value="
+            <?php if(isset($invInfo['invId'])){ echo $invInfo['invId'];} 
+            elseif(isset($invId)){ echo $invId; } ?>
+            ">
             <input type="hidden" name="action" value="updateVehicle">
 
         </form>
