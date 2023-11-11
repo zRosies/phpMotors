@@ -39,6 +39,8 @@
     
 
             <?php
+               
+
                  if(true){
                     echo "
                     <div class='info'>
@@ -51,7 +53,7 @@
                         <p>Email: {$email}</p>
                 
                         <h3>Use this link to update your account information</h3> 
-                        <a href= '../accounts/index.php?action=update&clientEmail=$email'
+                        <a href= '../accounts/index.php?action=update&clientId=$clientId'
                    
                    >
                 

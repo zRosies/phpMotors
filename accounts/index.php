@@ -19,14 +19,17 @@ require_once '../library/functions.php';
     //Checking if the user is logged in! If the users is logged in it will not stop the logout action.
 
     //look this if the controlers is not working properly
+    // echo $action;
 
-    if(isset($_SESSION['loggedin']) && $action != 'logout' && $action != 'update'){
+    if(isset($_SESSION['loggedin']) && $action != 'logout' && $action != 'update' && $action != 'updateaccount' && $action != 'password'){
         if($_SESSION['loggedin']){
 
             $action = 'logged';
         }
        
     }
+
+
 
     
 
@@ -37,9 +40,9 @@ require_once '../library/functions.php';
     }
     $lastName = isset($_SESSION['clientLastname']) ? $_SESSION['clientLastname'] : '';
     $email = isset($_SESSION['clientEmail']) ? $_SESSION['clientEmail'] : '';
+    $clientId = isset($_SESSION['clientId']) ? $_SESSION['clientId'] : '';
     $clientLevel = isset($_SESSION['clientLevel']) ? (int)$_SESSION['clientLevel'] : 0;
-
-    $clientLevel = 5;
+    
     $showAdminView = FALSE;
 
     if($clientLevel > 1){
@@ -124,6 +127,14 @@ require_once '../library/functions.php';
                  
                
                $clientData = getClient($clientEmail);
+
+               if(!$clientData){
+                   $message = '<p class="response">Please provide a valid email address and password.</p>';
+                   include '../view/login.php';
+                   exit;
+               }
+
+
     
                $hashedPassword = $clientData['clientPassword'];
            
@@ -149,7 +160,7 @@ require_once '../library/functions.php';
                $_SESSION['clientFirstname'] = $clientData['clientFirstname'];
                $_SESSION['clientLastname'] = $clientData['clientLastname'];
                $_SESSION['clientEmail'] = $clientData['clientEmail'];
-
+               $_SESSION['clientId'] = $clientData['clientId'];
                $_SESSION['clientLevel'] = $clientData['clientLevel'];
                
             //    $_SESSION['clientFirstname'];
@@ -188,10 +199,12 @@ require_once '../library/functions.php';
             include header('Location: /phpmotors/?action=home');
              break;
         case 'update':
-            // echo 'AAAAAAAAAAAAAAAAAAAAAA';
-                $clientEmail = filter_input(INPUT_GET, 'clientEmail', FILTER_SANITIZE_EMAIL);
-                // echo $clientEmail;
-                $result = getUserInfo($clientEmail);
+      
+                $clientId = filter_input(INPUT_GET, 'clientId',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+                $_SESSION['clientId'] = $clientId;
+
+                $result = getUserInfo($clientId);
                 if (count($result) < 1) {
                     $message = 'Sorry, no user information found.';
                 }
@@ -202,31 +215,75 @@ require_once '../library/functions.php';
             $clientFirstname =trim( filter_input(INPUT_POST, 'clientFirstName',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
             $clientLastname = trim(filter_input(INPUT_POST, 'clientLastName',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
             $clientEmail = trim(filter_input(INPUT_POST, 'clientEmail', FILTER_SANITIZE_EMAIL));
-
-            $existingEmail = checkExistingEmail($clientEmail); 
-        
-            if($existingEmail){
-                $message = '<p class="response">That email address already exists. Do you want to login instead?</p>';
-                include '../view/login.php';
-                exit;
-            } 
-
-      
-
+         
             $clientEmail = checkEmail($clientEmail);
+        
+        
+            if(empty($clientFirstname) || empty($clientLastname) || empty($clientEmail)){
+                $message = "<p class='response'> Please provide information for all empty fields. </p> ";
+                include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/client-update.php';
+                exit;
+            }
+
+
+            $result = updateUserInfo($clientEmail, $clientFirstname, $clientLastname, $clientId);
+
+
+
+
+            if ($result) {
+                $message = "<p class='response'>Congratulations, $clientFirstname! Your profile was updated.</p>";
+                $_SESSION['message'] = $message;
+                include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/client-update.php';
+                exit;
+            } else {
+                $message = "<p class='response'>Error. Your profile was not updated.</p>";
+                $_SESSION['message'] = $message;
+                include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/client-update.php';
+                exit;
+            }
+
+            
+          
+
+            
+            include "../view/vehicle-update.php";
+    
+            break;
+        case 'password':
+            
+            $clientPassword = trim(filter_input(INPUT_POST, 'clientPassword',FILTER_SANITIZE_STRING));
             $checkPassword = checkPassword($clientPassword);
             $hashedPassword = password_hash($clientPassword, PASSWORD_DEFAULT);
-
+            
             if(empty($checkPassword) ){
-                $message = "<p class='response'> Please provide information for all empty fields. </p> ";
-                include '../view/register.php';
+                $message = "<p class='response'> Please provide information correclty. </p> ";
+                include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/client-update.php';
                 exit; 
             }
-            else if(empty($clientFirstname) || empty($clientLastname) || empty($clientEmail) || empty($hashedPassword)){
+            else if(empty($hashedPassword)){
                 $message = "<p class='response'> Please provide information for all empty fields. </p> ";
-                include '../view/register.php';
+                include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/client-update.php';
                 exit;
             }
+
+            $result = updatePassword($_SESSION['clientId'], $hashedPassword);
+            
+            
+            
+            if ($result) {
+                $message = "<p class='response'>Congratulations, Your password was updated sucessfuly</p>";
+                $_SESSION['message'] = $message;
+                include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/client-update.php';
+                exit;
+            } else {
+                $message = "<p class='response'>Error. Your password was not updated.</p>";
+                $_SESSION['message'] = $message;
+                include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/view/client-update.php';
+                exit;
+            }
+
+            break;
 
 
      

@@ -16,7 +16,14 @@
 
     </header>
     <main>
-        <form method="post" action = "/phpmotors/accounts/index.php">
+        <?php
+             if(isset($message)){
+                    echo $message;
+                }
+
+        ?>
+
+        <form method="post" action = "/phpmotors/accounts/index.php?action=updateaccount">
             <!-- Just put the message here so i could use postition relative to follow the container form with position absolute -->
             
             <h1>Update your account</h1>
@@ -37,14 +44,14 @@
                 ?>>
             </label>
             <button type="submit">Update Account</button>
-            <input type="hidden" name="action" value="register">
+            <!-- <input type="hidden" name="action" value="updateaccount"> -->
         </form>
-        <form action="">
+        <form action="/phpmotors/accounts/index.php?action=password" method='post'>
             <label for="password" >Password <span>*</span>
                 <input name="clientPassword" id="password" type="password" required pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" placeholder="eg: myPassword2$">
                 <span id='span'>Your new password must be at least 8 characters and contain at least 1 number, 1 capital letter and 1 special character</span> 
             </label>
-            <button type="submit">Update</button>
+            <button type="submit">Update Password</button>
 
 
         </form>

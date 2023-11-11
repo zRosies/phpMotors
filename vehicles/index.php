@@ -30,13 +30,7 @@ require_once '../library/functions.php';
     if(!isset($_SESSION['loggedin']) || $clientLevel < 2){
         include header('Location: /phpmotors/?action=home');
        
-    }
-    if(isset($_SESSION['clientFirstname'])){
-        $firstName = isset($_SESSION['clientFirstname']) ? $_SESSION['clientFirstname'] : '';
-    
-    }
-
-    
+    }    
     
 
     $action= filter_input(INPUT_POST,'action');
