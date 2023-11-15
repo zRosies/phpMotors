@@ -241,9 +241,22 @@ require_once '../library/functions.php';
                     break;
                 
                 break;
+            case 'classification':
+                    $classificationName = filter_input(INPUT_GET, 'classificationName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                    $vehicles = getVehiclesByClassification($classificationName);
+                    if(!count($vehicles)){
+                        $message = "<p class='notice'>Sorry, no $classificationName vehicles could be found.</p>";
+                      } else {
+                        $vehicleDisplay = buildVehiclesDisplay($vehicles);
+                      }
+                    //   echo $vehicleDisplay;
+ 
+
+                     include '../view/classification.php';
+                     break;
 
        
-         default:
+            default:
         //  echo '<pre>';
         //     print_r($classificationID);
         //  echo '</pre>';
