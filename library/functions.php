@@ -123,16 +123,20 @@ function updatePassword($clientId, $clientPassword){
 
 
 function buildVehiclesDisplay($vehicles){
-    $dv = '<ul id="inv-display">';
+    $dv = '<div id="inv-display">';
     foreach ($vehicles as $vehicle) {
-     $dv .= '<li>';
-     $dv .= "<img src='$vehicle[invThumbnail]' alt='Image of $vehicle[invMake] $vehicle[invModel] on phpmotors.com'>";
-     $dv .= '<hr>';
-     $dv .= "<h2>$vehicle[invMake] $vehicle[invModel]</h2>";
-     $dv .= "<span>$vehicle[invPrice]</span>";
-     $dv .= '</li>';
+    $dv .= '<section class ="display">';   
+     $dv .= '<div>';
+     $dv .= "<a href='/phpmotors/vehicles/?action=car&carName=$vehicle[invId]'><img src='/phpmotors$vehicle[invThumbnail]' alt='Image of $vehicle[invMake] $vehicle[invModel] on phpmotors.com'></a>";
+     $dv .= '</div>';
+     $dv .= '<div class="info">';
+     $dv .= "<a href='/phpmotors/vehicles/?action=car&carName=$vehicle[invId]'><h2>$vehicle[invMake] $vehicle[invModel]</h2></a>";
+     
+     $dv .= "<span>$vehicle[invPrice]$</span>";
+     $dv .= '</div>';    
+     $dv .= '</section>';   
     }
-    $dv .= '</ul>';
+    $dv .= '</div>';
     return $dv;
    }
 

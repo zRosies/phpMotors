@@ -33,6 +33,28 @@ function getVehiclesByClassification($classificationName){
 
 }
 
+function displayCarInfo($info){
+    $carInfo = '<section class="information">
+    <div class="container">
+      <h2> ' . $info['invMake'] . ' ' . $info['invModel'] . '</h2>
+      <div class="photo">
+          <img src=/phpmotors/' . $info['invImage'] . ' alt="vehicle thumbnail">
+      </div>
+      <p>Price: $ '. $info['invPrice'] .' <button/>Checkout</p>
+    </div>
+    <div class="description">
+        <h3> ' . $info['invMake'] . ' ' . $info['invModel'] . ' Details</h3>
+        <p class="desc"> '. $info['invDescription'] .'</p>
+        <p>In Stock: '. $info['invStock'] .'<p>
+        <p>Color: '. $info['invColor'] .'<p>
+            
+    
+    </div>
+    </section>';
+  
+    return $carInfo;
+  }
+
 
 
 function insertCarClassfication($carModel){

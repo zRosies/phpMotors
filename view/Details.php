@@ -23,8 +23,8 @@
 
         <?php
        
-            if(isset($vehicleDisplay)){
-                echo $vehicleDisplay;
+            if(isset($carInfo)){
+                echo $carInfo;
             }
         
         ?>

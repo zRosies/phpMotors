@@ -254,6 +254,17 @@ require_once '../library/functions.php';
 
                      include '../view/classification.php';
                      break;
+            case 'car':
+                $carId = filter_input(INPUT_GET, 'carName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+               
+                $vechileInfo = getInvItemInfo($carId);
+                $carInfo =displayCarInfo( $vechileInfo);
+                // $vehicles = getInvItemInfo($InvModel);
+              
+
+                include '../view/Details.php';
+                break;
+
 
        
             default:
