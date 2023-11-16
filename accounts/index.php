@@ -268,7 +268,7 @@ require_once '../library/functions.php';
             }
 
             $result = updatePassword($_SESSION['clientId'], $hashedPassword);
-            
+            $userInfo = getUserInfo($_SESSION['clientId']);
             
             
             if ($result) {

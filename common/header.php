@@ -4,8 +4,15 @@
             if(isset($firstName)){
                 echo "<p class='response'>Welcome, $firstName </p>";
             }
-        ?>
+            ?>
     <a href="/phpmotors/accounts/index.php?action=login">My account</a>
+    <?php
+    if(isset($_SESSION['loggedin'])){
+        echo '<a class="logout" href="/phpmotors/accounts/index.php?action=logout">Log out</a>';
+        
+    }
+?>
+
 </div>
 
 

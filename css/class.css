@@ -109,6 +109,8 @@ ul a:hover {
 .info a {
   width: auto;
   height: auto;
+  text-decoration: none;
+  color: #000;
 }
 
 .display img {

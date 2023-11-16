@@ -34,12 +34,23 @@
             </label>
             <label for="lastName">Last name <span>*</span>
                 <input name="clientLastName" id="lastName" type="text" required placeholder="eg: Swift" <?php if(isset($clientFirstname)){echo "value='$clientLastname'";}
-                     if(isset($clientLastName)){ echo "value='$clientLastName'"; } elseif(isset($result['clientLastname'])) {echo "value='$result[clientLastname]'"; }
+                    if(isset($clientLastName)) {
+                        echo "value='" . htmlspecialchars($clientLastName) . "'";
+                    } else if(isset($result['clientLastname'])) {
+                        echo "value='" . htmlspecialchars($result['clientLastname']) . "'";
+                    } else if(isset($userInfo['clientLastname'])) {
+                        echo "value='" . htmlspecialchars($userInfo['clientLastname']) . "'";
+                    }
                 ?>>
             </label>
             <label for="email">Email <span>*</span>
                 <input name="clientEmail" id="email" type="email" required placeholder="eg: yourname@gmail.com" <?php if(isset($clientFirstname)){echo "value='$clientEmail'";}
-                    if(isset($clientEmail)){ echo "value='$clientEmail'"; } elseif(isset($result['clientEmail'])) {echo "value='$result[clientEmail]'"; }
+                    if(isset($clientEmail)){ echo "value='$clientEmail'"; } 
+                    elseif(isset($result['clientEmail'])) {echo "value='$result[clientEmail]'";
+                     }
+                     else if(isset($userInfo['clientEmail'])) {
+                        echo "value='" . htmlspecialchars($userInfo['clientEmail']) . "'";
+                    }
                     
                 ?>>
             </label>
