@@ -62,26 +62,7 @@ function buildClassificationList($classifications){
  return $classificationList; 
 }
 
-function getInventoryByClassification($classificationId){ 
-    $db = phpmotorsConnect(); 
-    $sql = ' SELECT * FROM inventory WHERE classificationId = :classificationId'; 
-    $stmt = $db->prepare($sql); 
-    $stmt->bindValue(':classificationId', $classificationId, PDO::PARAM_INT); 
-    $stmt->execute(); 
-    $inventory = $stmt->fetchAll(PDO::FETCH_ASSOC); 
-    $stmt->closeCursor(); 
-    return $inventory; 
-   }
-function getInvItemInfo($invId){
-    $db = phpmotorsConnect();
-    $sql = 'SELECT * FROM inventory WHERE invId = :invId';
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
-    $stmt->execute();
-    $invInfo = $stmt->fetch(PDO::FETCH_ASSOC);
-    $stmt->closeCursor();
-    return $invInfo;
-   }
+
 
    function getUserInfo($clientId) {
     $db = phpmotorsConnect();
@@ -121,10 +102,33 @@ function updatePassword($clientId, $clientPassword){
 
 }
 
+function getInventoryByClassification($classificationId){ 
+    $db = phpmotorsConnect(); 
+    $sql = ' SELECT * FROM inventory WHERE classificationId = :classificationId'; 
+    $stmt = $db->prepare($sql); 
+    $stmt->bindValue(':classificationId', $classificationId, PDO::PARAM_INT); 
+    $stmt->execute(); 
+    $inventory = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+    $stmt->closeCursor(); 
+    return $inventory; 
+   }
+function getInvItemInfo($invId){
+    $db = phpmotorsConnect();
+    $sql = 'SELECT * FROM inventory WHERE invId = :invId';
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
+    $stmt->execute();
+    $invInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    return $invInfo;
+   }
+
 
 function buildVehiclesDisplay($vehicles){
+
     $dv = '<div id="inv-display">';
     foreach ($vehicles as $vehicle) {
+    $price = formatPrice($vehicle["invPrice"]);
     $dv .= '<section class ="display">';   
      $dv .= '<div>';
      $dv .= "<a href='/phpmotors/vehicles/?action=car&carName=$vehicle[invId]'><img src='/phpmotors$vehicle[invThumbnail]' alt='Image of $vehicle[invMake] $vehicle[invModel] on phpmotors.com'></a>";
@@ -132,13 +136,42 @@ function buildVehiclesDisplay($vehicles){
      $dv .= '<div class="info">';
      $dv .= "<a href='/phpmotors/vehicles/?action=car&carName=$vehicle[invId]'><h2>$vehicle[invMake] $vehicle[invModel]</h2></a>";
      
-     $dv .= "<span>$vehicle[invPrice]$</span>";
+     $dv .= "<span>$ $price </span>";
      $dv .= '</div>';    
      $dv .= '</section>';   
     }
     $dv .= '</div>';
     return $dv;
+
+
    }
+
+function formatPrice($number) {
+    $formattedPrice = number_format($number,2, '.');
+    return $formattedPrice;
+}
+function displayCarInfo($info){
+    $price = formatPrice($info['invPrice']);
+    $carInfo = '
+    <section class="information">
+        <div class="container">
+            <h2>' . $info['invMake'] . ' ' . $info['invModel'] . '</h2>
+            <div class="photo">
+                <img src="/phpmotors/' . $info['invImage'] . '" alt="vehicle thumbnail">
+            </div>
+            <p>Price: $ ' . $price . '</p> 
+            <button>Checkout</button>
+        </div>
+        <div class="description">
+            <h3>' . $info['invMake'] . ' ' . $info['invModel'] . ' Details</h3>
+            <p class="desc">' . $info['invDescription'] . '</p>
+            <p>In Stock: ' . $info['invStock'] . '</p>
+            <p>Color: ' . $info['invColor'] . '</p>              
+        </div>
+    </section>';
+  
+    return $carInfo;
+  }
 
 
 ?>

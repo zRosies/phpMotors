@@ -27,10 +27,10 @@ require_once '../library/functions.php';
 
     //Extra points here \/
     //checking if the user is logged in and the client level is  > 2 before proceeding
-    if(!isset($_SESSION['loggedin']) || $clientLevel < 2){
-        include header('Location: /phpmotors/?action=home');
+    // if(!isset($_SESSION['loggedin']) || $clientLevel < 2){
+    //     include header('Location: /phpmotors/?action=home');
        
-    }    
+    // }    
     
 
     $action= filter_input(INPUT_POST,'action');
@@ -243,6 +243,7 @@ require_once '../library/functions.php';
                 break;
             case 'classification':
                     $classificationName = filter_input(INPUT_GET, 'classificationName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                    
                     $vehicles = getVehiclesByClassification($classificationName);
                     if(!count($vehicles)){
                         $message = "<p class='notice'>Sorry, no $classificationName vehicles could be found.</p>";
@@ -258,11 +259,12 @@ require_once '../library/functions.php';
                 $carId = filter_input(INPUT_GET, 'carName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                
                 $vechileInfo = getInvItemInfo($carId);
+                $carTitle = $vechileInfo['invMake'] .' '. $vechileInfo['invModel'];
                 $carInfo =displayCarInfo( $vechileInfo);
                 // $vehicles = getInvItemInfo($InvModel);
               
 
-                include '../view/Details.php';
+                include '../view/vehicle-detail.php';
                 break;
 
 
