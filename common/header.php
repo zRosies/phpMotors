@@ -1,4 +1,5 @@
 
+<link rel="stylesheet" href="/phpmotors/css/nav.css?<?php echo time()?>">
 <div class="account">
     <a href="/phpmotors/index.php"><img src="/phpmotors/images/site/logo.png" alt="logo"></a>
         <?php

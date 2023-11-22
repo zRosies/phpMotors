@@ -150,3 +150,7 @@ footer {
   text-align: center;
   padding-bottom: 10px;
 }
+
+fieldset {
+  display: flex;
+}
