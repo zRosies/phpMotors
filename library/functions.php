@@ -157,7 +157,7 @@ function displayCarInfo($info){
         <div class="container">
             <h2>' . $info['invMake'] . ' ' . $info['invModel'] . '</h2>
             <div class="photo">
-                <img src="/phpmotors/' . $info['invImage'] . '" alt="vehicle thumbnail">
+                <img src="/phpmotors' . $info['invImage'] . '" alt="vehicle thumbnail">
             </div>
             <p>Price: $ ' . $price . '</p> 
             <button>Checkout</button>
@@ -216,6 +216,7 @@ function displayCarInfo($info){
         if (isset($_FILES[$name])) {
         // Gets the actual file name
         $filename = $_FILES[$name]['name'];
+
         if (empty($filename)) {
         return;
         }
@@ -234,23 +235,64 @@ function displayCarInfo($info){
         }
     }
 
-    // Processes images by getting paths and 
-    // creating smaller versions of the image
+    function uploadAndUpdateThumbnail($name, $tmpFilePath) {
+        global $image_dir, $image_dir_path;
+    
+        // Check if the temporary file path and file name are not empty
+        if (!empty($tmpFilePath) && !empty($name)) {
+            $target = $image_dir_path . '/' . $name;
+    
+            // Move uploaded file to the target path
+            if (move_uploaded_file($tmpFilePath, $target)) {
+                // Process the uploaded image if necessary
+                $thumbnailTarget = processImage($image_dir_path, $name);
+    
+                if ($thumbnailTarget) {
+                    // Sets the path for the image for Database storage
+                    $originalPath = $image_dir . '/' . $name;
+                    $thumbnailPath = $image_dir . '/' . $thumbnailTarget;
+    
+                    // Return an associative array with paths to both original and thumbnail images
+                    return array('img' => $originalPath, 'img-tn' => $thumbnailPath);
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else {
+            // Handle the case where the file or temporary file path is empty
+            return null;
+        }
+    }
+
+
+
     function processImage($dir, $filename) {
         // Set up the variables
         $dir = $dir . '/';
-    
-        // Set up the image path
-        $image_path = $dir . $filename;
-    
-        // Set up the thumbnail image path
-        $image_path_tn = $dir.makeThumbnailName($filename);
-    
-        // Create a thumbnail image that's a maximum of 200 pixels square
-        resizeImage($image_path, $image_path_tn, 200, 200);
-    
-        // Resize original to a maximum of 500 pixels square
-        resizeImage($image_path, $image_path, 500, 500);
+        
+        // // Set up the image path
+        $image_path = $dir . $filename ;
+       
+
+        $image_path_tn = $image_path.'-tn';
+
+
+        echo $image_path;
+        
+        // Determine if it's a thumbnail image
+        $isThumbnail = strpos($filename, '-tn.') !== false;
+
+        if($isThumbnail){
+            resizeImage($image_path, $image_path_tn, 200, 200);
+
+        }
+        else{
+            resizeImage($image_path, $image_path_tn, 500, 500);
+
+        }
+
     }
 
     function resizeImage($old_image_path, $new_image_path, $max_width, $max_height) {
@@ -278,7 +320,7 @@ function displayCarInfo($info){
        } // ends the swith
        
         // Get the old image and its height and width
-        $old_image = $image_from_file($old_image_path);
+        $old_image = imagecreatefrompng($old_image_path);
         $old_width = imagesx($old_image);
         $old_height = imagesy($old_image);
        
@@ -326,7 +368,26 @@ function displayCarInfo($info){
          // Free any memory associated with the old image
          imagedestroy($old_image);
        } // ends resizeImage function
+            
+       
+       // Processes images by getting paths and 
+    // creating smaller versions of the image
+    // function processImage($dir, $filename) {
+    //     // Set up the variables
+    //     $dir = $dir . '/';
     
+    //     // Set up the image path
+    //     $image_path = $dir . $filename;
+    
+    //     // Set up the thumbnail image path
+    //     $image_path_tn = $dir.makeThumbnailName($filename);
+    
+    //     // Create a thumbnail image that's a maximum of 200 pixels square
+    //     resizeImage($image_path, $image_path_tn, 200, 200);
+    
+    //     // Resize original to a maximum of 500 pixels square
+    //     resizeImage($image_path, $image_path, 500, 500);
+    // }
 
 
 ?>

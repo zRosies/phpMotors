@@ -15,10 +15,7 @@
 <header>
 
 <header>  
-       <?php
-            if (isset($_SESSION['message'])) {
-                $message = $_SESSION['message'];
-               }
+        <?php
 
             include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/common/header.php';
           
@@ -29,6 +26,12 @@
 
 </header>
     <main>
+            <?php
+                    if (isset($_SESSION['message'])) {
+                        $message = $_SESSION['message'];
+                        echo $message;
+                    }
+            ?>
         <form action="/phpmotors/uploads/" method="post" enctype="multipart/form-data">
             <label for="invItem">Vehicle</label>
                 <?php echo $prodSelect; ?>
@@ -46,7 +49,7 @@
             <input type="hidden" name="action" value="upload">
         </form>
         <h2>Existing Images</h2>
-            <p class="notice">If deleting an image, delete the thumbnail too and vice versa.</p>
+            <p >If deleting an image, delete the thumbnail too and vice versa.</p>
             <?php
             if (isset($imageDisplay)) {
             echo $imageDisplay;

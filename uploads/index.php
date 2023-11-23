@@ -23,7 +23,7 @@
         // * **************************************************** */
         // directory name where uploaded images are stored
 
-    $image_dir = '/phpmotors/uploads/images';
+    $image_dir = '/phpmotors/images/vehicles';
     $image_dir_path = $_SERVER['DOCUMENT_ROOT'] . $image_dir;
 
 
@@ -36,6 +36,8 @@
                     
                 // Store the name of the uploaded image
                 $imgName = $_FILES['file1']['name'];
+                $imgTemp = $_FILES['file1']['tmp_name'];
+                // $tmpFilePath = $_FILES['file1']['name'];
                     
                 $imageCheck = checkExistingImage($imgName);
                 
@@ -46,13 +48,14 @@
                 $message = '<p class="notice">You must select a vehicle and image file for the vehicle.</p>';
                 } else {
                 // Upload the image, store the returned path to the file
-                $imgPath = uploadFile('file1');
+                // $imgPath = uploadFile('file1');
+                $imgTnPath = uploadAndUpdateThumbnail($imgName, $imgTemp);
+
+               
                 
-                echo $imgPath;
-                // Insert the image information to the database, get the result
-                $result = storeImages($imgPath, $invId, $imgName, $imgPrimary);
+                $result = storeImages($imgTnPath['img'], $invId, $imgName, $imgPrimary);
                     
-                // Set a message based on the insert result
+                // // Set a message based on the insert result
                 if ($result) {
                 $message = '<p class="notice">The upload succeeded.</p>';
                 } else {
@@ -73,7 +76,6 @@
                 
             // Build the full path to the image to be deleted
             $target = $image_dir_path . '/' . $filename;
-            
                 
             // Check that the file exists in that location
             if (file_exists($target)) {
