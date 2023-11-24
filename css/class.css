@@ -149,6 +149,7 @@ ul a:hover {
 .container p {
   font-size: 1.3rem;
   font-weight: 800;
+  margin-left: 50px;
 }
 
 .description {
@@ -224,6 +225,7 @@ ul a:hover {
   max-height: 180px;
   align-self: center;
   flex-direction: column;
+  margin-right: 20px;
 }
 
 .additional-images img {
@@ -233,11 +235,15 @@ ul a:hover {
   border-radius: 8px;
   box-shadow: 0.1px 0.1px 2px;
   padding: 5px;
-  transition: 0.2s ease-in-out;
+  transition: 0.3s ease-in-out;
+  z-index: 5;
 }
 
 .additional-images img:hover {
+  position: relative;
   box-shadow: 2px 2px 5px;
+  transform: scale(1.13);
+  z-index: 5;
 }
 
 .photo img {
