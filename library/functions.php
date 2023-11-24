@@ -170,20 +170,7 @@ function displayCarInfo($info , $additionalImg){
 
     $carInfo = '
     <section class="information">
-        <div class="container">
-            <h2>' . $info['invMake'] . ' ' . $info['invModel'] . '</h2>
-            <div class="photo">
-                <img src="/phpmotors' . $info['invImage'] . '" alt="vehicle thumbnail">
-            </div>
-            <p>Price: $ ' . $price . '</p> 
-            <button>Checkout</button>
-        </div>
-        <div class="description">
-            <h3>' . $info['invMake'] . ' ' . $info['invModel'] . ' Details</h3>
-            <p class="desc">' . $info['invDescription'] . '</p>
-            <p>In Stock: ' . $info['invStock'] . '</p>
-            <p>Color: ' . $info['invColor'] . '</p>
-            <div class="additional-images"> ';
+        <div class="additional-images"> ';
             foreach ($additionalImg as $image) {
 
                 //here I get only with images with final TN
@@ -206,6 +193,20 @@ function displayCarInfo($info , $additionalImg){
 
             $carInfo .= '
         </div>
+        <div class="container">
+            <h2>' . $info['invMake'] . ' ' . $info['invModel'] . '</h2>
+            <div class="photo">
+                <img src="/phpmotors' . $info['invImage'] . '" alt="vehicle thumbnail">
+            </div>
+            <p>Price: $ ' . $price . '</p> 
+            <button>Checkout</button>
+        </div>
+        <div class="description">
+            <h3>' . $info['invMake'] . ' ' . $info['invModel'] . ' Details</h3>
+            <p class="desc">' . $info['invDescription'] . '</p>
+            <p>In Stock: ' . $info['invStock'] . '</p>
+            <p>Color: ' . $info['invColor'] . '</p>
+            
         </div>
     </section>';
   

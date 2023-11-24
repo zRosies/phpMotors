@@ -14,14 +14,14 @@
 <div class='weird'>
 <header>
 
-<header>  
+  
         <?php
 
             include $_SERVER['DOCUMENT_ROOT']. '/phpmotors/common/header.php';
           
        ?>
 
-    </header>
+  
     
 
 </header>
@@ -33,7 +33,7 @@
                     }
             ?>
         <form action="/phpmotors/uploads/" method="post" enctype="multipart/form-data">
-            <label for="invItem">Vehicle</label>
+            <label>Vehicle</label>
                 <?php echo $prodSelect; ?>
                 <label>Is this the main image for the vehicle?</label>
                 <fieldset>
@@ -43,8 +43,10 @@
                     <label for="priNo" class="pImage">No</label>
                     <input type="radio" name="imgPrimary" id="priNo" class="pImage" checked value="0">
                 </fieldset>
-            <label>Upload Image:</label>
-            <input type="file" name="file1">
+            <label>Upload Image:
+                <input type="file" name="file1">
+            </label>
+            
             <input type="submit" class="regbtn" value="Upload">
             <input type="hidden" name="action" value="upload">
         </form>

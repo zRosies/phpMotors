@@ -49,3 +49,28 @@ fieldset {
 #image-display a:hover {
   background: #373636;
 }
+
+form {
+  margin-top: 10px;
+  width: 500px;
+  height: 300px;
+}
+
+.regbtn {
+  all: unset;
+  background: #262525;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin: 0 auto;
+  width: 150px;
+  display: flex;
+  align-content: center;
+  align-self: start;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.regbtn:hover {
+  background: #3d3d3d;
+}
