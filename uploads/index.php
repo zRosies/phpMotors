@@ -33,6 +33,8 @@
                 $invId = filter_input(INPUT_POST, 'invId', FILTER_VALIDATE_INT);
                 $imgPrimary = filter_input(INPUT_POST, 'imgPrimary', FILTER_VALIDATE_INT);
 
+
+                
                     
                 // Store the name of the uploaded image
                 $imgName = $_FILES['file1']['name'];
@@ -49,18 +51,18 @@
                 } else {
                 // Upload the image, store the returned path to the file
                 // $imgPath = uploadFile('file1');
-                $imgTnPath = uploadAndUpdateThumbnail($imgName, $imgTemp);
-
-               
+                $imgPath = uploadAndUpdateThumbnail($imgName, $imgTemp);         
                 
-                $result = storeImages($imgTnPath['img'], $invId, $imgName, $imgPrimary);
+                $result = storeImages($imgPath['img'], $invId, $imgName, $imgPrimary);
+
+                // echo $imgPrimary;
                     
                 // // Set a message based on the insert result
-                if ($result) {
-                $message = '<p class="notice">The upload succeeded.</p>';
-                } else {
-                $message = '<p class="notice">Sorry, the upload failed.</p>';
-                }
+                    if ($result) {
+                    $message = '<p class="notice">The upload succeeded.</p>';
+                    } else {
+                    $message = '<p class="notice">Sorry, the upload failed.</p>';
+                    }
                 }
                     
                 // Store message to session

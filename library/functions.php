@@ -115,6 +115,7 @@ function getInventoryByClassification($classificationId){
 function getInvItemInfo($invId){
     $db = phpmotorsConnect();
     $sql = 'SELECT * FROM inventory WHERE invId = :invId';
+    // $sql = 'SELECT * FROM images JOIN inventory ON images.invId = inventory.invId';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
     $stmt->execute();
@@ -122,6 +123,20 @@ function getInvItemInfo($invId){
     $stmt->closeCursor();
     return $invInfo;
    }
+
+   function getCarInfo($invId){
+    $db = phpmotorsConnect();
+    $sql = 'SELECT images.imgId, images.invId, images.imgName, images.imgPath, inventory.invMake, inventory.invModel
+            FROM images
+            JOIN inventory ON images.invId = inventory.invId
+            WHERE images.imgPrimary = 0 AND images.invId = :invId'; // Added invId condition
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
+    $stmt->execute();
+    $invInfo = $stmt->fetchAll(PDO::FETCH_ASSOC); // Use fetchAll instead of fetch
+    $stmt->closeCursor();
+    return $invInfo;
+}
 
 
 function buildVehiclesDisplay($vehicles){
@@ -150,8 +165,9 @@ function formatPrice($number) {
     $formattedPrice = number_format($number,2, '.');
     return $formattedPrice;
 }
-function displayCarInfo($info){
+function displayCarInfo($info , $additionalImg){
     $price = formatPrice($info['invPrice']);
+
     $carInfo = '
     <section class="information">
         <div class="container">
@@ -166,7 +182,30 @@ function displayCarInfo($info){
             <h3>' . $info['invMake'] . ' ' . $info['invModel'] . ' Details</h3>
             <p class="desc">' . $info['invDescription'] . '</p>
             <p>In Stock: ' . $info['invStock'] . '</p>
-            <p>Color: ' . $info['invColor'] . '</p>              
+            <p>Color: ' . $info['invColor'] . '</p>
+            <div class="additional-images"> ';
+            foreach ($additionalImg as $image) {
+
+                //here I get only with images with final TN
+                $imgPath = $image['imgPath'];
+                $allowedExtensions = ['png', 'jpeg', 'jpg', 'gif'];
+                
+                $endsWithTN = false;
+                foreach ($allowedExtensions as $extension) {
+                    if (substr($imgPath, -7) === "-tn.{$extension}") {
+                        $endsWithTN = true;
+                        break;
+                    }
+                }
+            
+                if ($endsWithTN) {
+
+                    $carInfo .= "<img src='{$imgPath}' alt='Image of {$info['invMake']} {$info['invModel']} on phpmotors.com'>";
+                }
+            }
+
+            $carInfo .= '
+        </div>
         </div>
     </section>';
   
@@ -247,7 +286,7 @@ function displayCarInfo($info){
                 // Process the uploaded image if necessary
                 $thumbnailTarget = processImage($image_dir_path, $name);
     
-                if ($thumbnailTarget) {
+                if ($thumbnailTarget !== false) {
                     // Sets the path for the image for Database storage
                     $originalPath = $image_dir . '/' . $name;
                     $thumbnailPath = $image_dir . '/' . $thumbnailTarget;
@@ -255,119 +294,124 @@ function displayCarInfo($info){
                     // Return an associative array with paths to both original and thumbnail images
                     return array('img' => $originalPath, 'img-tn' => $thumbnailPath);
                 } else {
-                    return null;
+                    // Handle image processing error
+                    return array('error' => 'Error processing image');
                 }
             } else {
-                return null;
+                // Handle file upload error
+                return array('error' => 'Error uploading file');
             }
         } else {
             // Handle the case where the file or temporary file path is empty
-            return null;
+            return array('error' => 'File or temporary file path is empty');
         }
     }
-
-
-
+    
     function processImage($dir, $filename) {
-        // Set up the variables
+
         $dir = $dir . '/';
-        
-        // // Set up the image path
-        $image_path = $dir . $filename ;
-       
+    
 
-        $image_path_tn = $image_path.'-tn';
-
-
-        echo $image_path;
-        
-        // Determine if it's a thumbnail image
+        $image_path = $dir . $filename;
+    
+  
         $isThumbnail = strpos($filename, '-tn.') !== false;
-
-        if($isThumbnail){
-            resizeImage($image_path, $image_path_tn, 200, 200);
-
+    
+        if ($isThumbnail) {
+            $thumbnailPath = resizeImage($image_path, 200, 200);
+        } else {
+            $thumbnailPath = resizeImage($image_path, 500, 500);
         }
-        else{
-            resizeImage($image_path, $image_path_tn, 500, 500);
-
-        }
-
+    
+        return $thumbnailPath;
     }
-
-    function resizeImage($old_image_path, $new_image_path, $max_width, $max_height) {
-     
+    
+    function resizeImage($old_image_path, $target_width, $target_height) {
         // Get image type
         $image_info = getimagesize($old_image_path);
         $image_type = $image_info[2];
-       
+    
         // Set up the function names
         switch ($image_type) {
-        case IMAGETYPE_JPEG:
-         $image_from_file = 'imagecreatefromjpeg';
-         $image_to_file = 'imagejpeg';
-        break;
-        case IMAGETYPE_GIF:
-         $image_from_file = 'imagecreatefromgif';
-         $image_to_file = 'imagegif';
-        break;
-        case IMAGETYPE_PNG:
-         $image_from_file = 'imagecreatefrompng';
-         $image_to_file = 'imagepng';
-        break;
-        default:
-         return;
-       } // ends the swith
-       
+            case IMAGETYPE_JPEG:
+                $image_from_file = 'imagecreatefromjpeg';
+                $image_to_file = 'imagejpeg';
+                break;
+            case IMAGETYPE_GIF:
+                $image_from_file = 'imagecreatefromgif';
+                $image_to_file = 'imagegif';
+                break;
+            case IMAGETYPE_PNG:
+                $image_from_file = 'imagecreatefrompng';
+                $image_to_file = 'imagepng';
+                break;
+            default:
+                return false;
+        }
+    
         // Get the old image and its height and width
-        $old_image = imagecreatefrompng($old_image_path);
+        $old_image = $image_from_file($old_image_path);
         $old_width = imagesx($old_image);
         $old_height = imagesy($old_image);
-       
+    
         // Calculate height and width ratios
-        $width_ratio = $old_width / $max_width;
-        $height_ratio = $old_height / $max_height;
-       
+        $width_ratio = $old_width / $target_width;
+        $height_ratio = $old_height / $target_height;
+    
         // If image is larger than specified ratio, create the new image
         if ($width_ratio > 1 || $height_ratio > 1) {
-       
-         // Calculate height and width for the new image
-         $ratio = max($width_ratio, $height_ratio);
-         $new_height = round($old_height / $ratio);
-         $new_width = round($old_width / $ratio);
-       
-         // Create the new image
-         $new_image = imagecreatetruecolor($new_width, $new_height);
-       
-         // Set transparency according to image type
-         if ($image_type == IMAGETYPE_GIF) {
-          $alpha = imagecolorallocatealpha($new_image, 0, 0, 0, 127);
-          imagecolortransparent($new_image, $alpha);
-         }
-       
-         if ($image_type == IMAGETYPE_PNG || $image_type == IMAGETYPE_GIF) {
-          imagealphablending($new_image, false);
-          imagesavealpha($new_image, true);
-         }
-       
-         // Copy old image to new image - this resizes the image
-         $new_x = 0;
-         $new_y = 0;
-         $old_x = 0;
-         $old_y = 0;
-         imagecopyresampled($new_image, $old_image, $new_x, $new_y, $old_x, $old_y, $new_width, $new_height, $old_width, $old_height);
-       
-         // Write the new image to a new file
-         $image_to_file($new_image, $new_image_path);
-         // Free any memory associated with the new image
-         imagedestroy($new_image);
-         } else {
-         // Write the old image to a new file
-         $image_to_file($old_image, $new_image_path);
-         }
-         // Free any memory associated with the old image
-         imagedestroy($old_image);
-       } // ends resizeImage function
+            // Calculate height and width for the new image
+            $ratio = max($width_ratio, $height_ratio);
+            $new_height = round($old_height / $ratio);
+            $new_width = round($old_width / $ratio);
+    
+            // Create the new image
+            $new_image = imagecreatetruecolor($new_width, $new_height);
+    
+            // Set transparency according to image type
+            if ($image_type == IMAGETYPE_GIF) {
+                $alpha = imagecolorallocatealpha($new_image, 0, 0, 0, 127);
+                imagecolortransparent($new_image, $alpha);
+            }
+    
+            if ($image_type == IMAGETYPE_PNG || $image_type == IMAGETYPE_GIF) {
+                imagealphablending($new_image, false);
+                imagesavealpha($new_image, true);
+            }
+    
+            // Copy old image to new image - this resizes the image
+            $new_x = 0;
+            $new_y = 0;
+            $old_x = 0;
+            $old_y = 0;
+            imagecopyresampled($new_image, $old_image, $new_x, $new_y, $old_x, $old_y, $new_width, $new_height, $old_width, $old_height);
+    
+            // Generate a new image path with '-tn' appended
+            $path_parts = pathinfo($old_image_path);
+            $new_image_path = $path_parts['dirname'] . '/' . $path_parts['filename'] . '-tn.' . $path_parts['extension'];
+    
+            // Write the new image to a new file
+            $image_to_file($new_image, $new_image_path);
+    
+            // Free any memory associated with the new image
+            imagedestroy($new_image);
+    
+            // Return the thumbnail target path
+            return $new_image_path;
+        } else {
+            // Image doesn't need resizing, return the original path
+            return $old_image_path;
+        }
+    
+        // Free any memory associated with the old image
+        imagedestroy($old_image);
+    } 
+    
+    
+    
+    
+    
+    // ends resizeImage function
             
        
        // Processes images by getting paths and 

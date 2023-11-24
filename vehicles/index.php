@@ -260,7 +260,11 @@ require_once '../library/functions.php';
                
                 $vechileInfo = getInvItemInfo($carId);
                 $carTitle = $vechileInfo['invMake'] .' '. $vechileInfo['invModel'];
-                $carInfo =displayCarInfo( $vechileInfo);
+                $additionalImg = getCarInfo($carId);
+
+                // print_r($additionalImg);
+                // print_r($vechileInfo);
+                $carInfo = displayCarInfo( $vechileInfo, $additionalImg);
                 // $vehicles = getInvItemInfo($InvModel);
               
 

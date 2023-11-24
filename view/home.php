@@ -19,7 +19,10 @@
     <main>
         <h1>Welcome to PHP Motors</h1>
         <div class="hero">
-            <img src="./images/delorean.jpg" alt="hero">
+            <img src=<?php  if(isset($hero_img_path)){
+                   echo '/phpmotors'. $hero_img_path;
+                }?> 
+                alt="hero">
             <div class="banner">
                 <h2>DMC Delorean</h2>
                 <p>3 cup holders</p>
@@ -27,8 +30,13 @@
                 <p>Fuzzy dice!</p>
                 
             </div>
-            <div class="banner1">
+            <!-- own today here -->
+            <!-- <div class="banner1">
                 <img src="./images/site/own_today.png"  alt="ban">
+            </div> -->
+
+            <div class='banner1'>
+               <a href=<?php echo 'vehicles/?action=car&carName='. $carId ?> > <button>Own Now !</button></a>
             </div>
             
         </div>

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php if(isset($invInfo['invMake']) && isset($invInfo['invModel'])){ 
+    <title><?php if(isset($invInfo['invMake']) || isset($invInfo['invModel'])){ 
 		echo "Modify $invInfo[invMake] $invInfo[invModel]";} 
-	elseif(isset($invMake) && isset($invModel)) { 
+	elseif(isset($invMake) || isset($invModel)) { 
 		echo "Modify $invMake $invModel"; }?> || PHP Motors</title>
     <link rel="stylesheet" href="/phpmotors/css/addvehicle.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="/phpmotors/css/image-admin.css?<?php echo time()?>">

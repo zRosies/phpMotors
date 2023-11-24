@@ -26,14 +26,22 @@ if(isset($_SESSION['clientFirstname'])){
 $action= filter_input(INPUT_POST,'action');
     if($action == NULL){
         $action= filter_input(INPUT_GET, 'action');
-    }    
-
+    }
+    
+  
     switch($action){
         case 'template':
             break;
 
+
+
        
         default:
+            $heroInfo = getInvItemInfo(24329);
+
+            $hero_img_path = $heroInfo['invImage'];
+            $carId = $heroInfo['invId'];
+    
             include 'view/home.php';                
 
 
