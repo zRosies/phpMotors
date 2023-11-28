@@ -51,7 +51,7 @@
                 } else {
                 // Upload the image, store the returned path to the file
                 // $imgPath = uploadFile('file1');
-                $imgPath = uploadAndUpdateThumbnail($imgName, $imgTemp);         
+                $imgPath = uploadFile($imgName, $imgTemp);         
                 
                 $result = storeImages($imgPath['img'], $invId, $imgName, $imgPrimary);
 

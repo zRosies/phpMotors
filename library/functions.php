@@ -112,17 +112,17 @@ function getInventoryByClassification($classificationId){
     $stmt->closeCursor(); 
     return $inventory; 
    }
-function getInvItemInfo($invId){
-    $db = phpmotorsConnect();
-    $sql = 'SELECT * FROM inventory WHERE invId = :invId';
-    // $sql = 'SELECT * FROM images JOIN inventory ON images.invId = inventory.invId';
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
-    $stmt->execute();
-    $invInfo = $stmt->fetch(PDO::FETCH_ASSOC);
-    $stmt->closeCursor();
-    return $invInfo;
-   }
+    function getInvItemInfo($invId){
+        $db = phpmotorsConnect();
+        $sql = 'SELECT * FROM inventory WHERE invId = :invId';
+        // $sql = 'SELECT * FROM images JOIN inventory ON images.invId = inventory.invId';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':invId', $invId, PDO::PARAM_STR);
+        $stmt->execute();
+        $invInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $invInfo;
+    }
 
    function getCarInfo($invId){
     $db = phpmotorsConnect();
@@ -146,7 +146,7 @@ function buildVehiclesDisplay($vehicles){
     $price = formatPrice($vehicle["invPrice"]);
     $dv .= '<section class ="display">';   
      $dv .= '<div>';
-     $dv .= "<a href='/phpmotors/vehicles/?action=car&carName=$vehicle[invId]'><img src='/phpmotors$vehicle[invThumbnail]' alt='Image of $vehicle[invMake] $vehicle[invModel] on phpmotors.com'></a>";
+     $dv .= "<a href='/phpmotors/vehicles/?action=car&carName=$vehicle[invId]'><img src='$vehicle[invThumbnail]' alt='Image of $vehicle[invMake] $vehicle[invModel] on phpmotors.com'></a>";
      $dv .= '</div>';
      $dv .= '<div class="info">';
      $dv .= "<a href='/phpmotors/vehicles/?action=car&carName=$vehicle[invId]'><h2>$vehicle[invMake] $vehicle[invModel]</h2></a>";
@@ -186,7 +186,7 @@ function displayCarInfo($info , $additionalImg){
                 }
             
                 if ($endsWithTN) {
-
+                    
                     $carInfo .= "<img src='{$imgPath}' alt='Image of {$info['invMake']} {$info['invModel']} on phpmotors.com'>";
                 }
             }
@@ -196,7 +196,7 @@ function displayCarInfo($info , $additionalImg){
         <div class="container">
             <h2>' . $info['invMake'] . ' ' . $info['invModel'] . '</h2>
             <div class="photo">
-                <img src="/phpmotors' . $info['invImage'] . '" alt="vehicle thumbnail">
+                <img src="'. $info['invImage'] . '" alt="vehicle thumbnail">
             </div>
             <p>Price: $ ' . $price . '</p> 
             <button>Checkout</button>
@@ -209,6 +209,8 @@ function displayCarInfo($info , $additionalImg){
             
         </div>
     </section>';
+
+    // echo $info['invImage'];
   
     return $carInfo;
   }
@@ -250,7 +252,7 @@ function displayCarInfo($info , $additionalImg){
 
     // Handles the file upload process and returns the path
     // The file path is stored into the database
-    function uploadFile($name) {
+    function uploadAndUpdateThumbnail($name) {
         // Gets the paths, full and local directory
         global $image_dir, $image_dir_path;
         if (isset($_FILES[$name])) {
@@ -275,7 +277,7 @@ function displayCarInfo($info , $additionalImg){
         }
     }
 
-    function uploadAndUpdateThumbnail($name, $tmpFilePath) {
+    function uploadFile($name, $tmpFilePath) {
         global $image_dir, $image_dir_path;
     
         // Check if the temporary file path and file name are not empty
@@ -407,6 +409,49 @@ function displayCarInfo($info , $additionalImg){
         // Free any memory associated with the old image
         imagedestroy($old_image);
     } 
+
+    function getSearchInfo($query, $currentPage, $itemsPerPage){
+        $db = phpmotorsConnect();
+        $offset = ($currentPage - 1) * $itemsPerPage;
+        $sql = "SELECT * FROM `inventory`
+            WHERE 
+                invDescription LIKE CONCAT('%', :query, '%') OR 
+                invColor LIKE CONCAT('%', :query, '%') OR
+                invYear LIKE CONCAT('%', :query, '%') OR
+                invMake LIKE CONCAT('%', :query, '%')
+            LIMIT :itemsPerPage OFFSET :offset;";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':query', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':itemsPerPage', $itemsPerPage, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        $invInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $invInfo;
+    }
+    function displaySearchInfo($arrayOfInfo, $query, $itemsPerPage){
+         
+        $resultCount = count($arrayOfInfo);
+        $dv = '<div class="information">';
+        $dv .= "<h2>$resultCount Results for: $query </h2>";
+        foreach ($arrayOfInfo as $item) {
+            $dv .= '<div>';
+            $dv .= "<a href='/phpmotors/vehicles/?action=car&carName=$item[invId]'>$item[invYear] $item[invMake] $item[invModel]</a>";
+            $dv .= "<p>$item[invDescription]</p>";
+            $dv .= '</div>';
+        }
+        $dv .= '</div>';
+    
+        // Add Pagination Links
+        $pagination = '<div class="pagination">';
+        $pageCount = ceil($resultCount / $itemsPerPage);
+        for ($i = 1; $i <= $pageCount; $i++) {
+            $pagination .= "<a href='/phpmotors/search?action=search&searchQuery=$query&page=$i'>$i</a>";
+        }
+        $pagination .= '</div>';
+    
+        return $dv . $pagination;
+    }
     
     
     
