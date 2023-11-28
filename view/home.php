@@ -20,7 +20,7 @@
         <h1>Welcome to PHP Motors</h1>
         <div class="hero">
             <img src=<?php  if(isset($hero_img_path)){
-                   echo '/phpmotors'. $hero_img_path;
+                   echo $hero_img_path;
                 }?> 
                 alt="hero">
             <div class="banner">

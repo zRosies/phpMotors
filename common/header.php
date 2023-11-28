@@ -1,5 +1,6 @@
 
 <link rel="stylesheet" href="/phpmotors/css/nav.css?<?php echo time()?>">
+<script src="https://kit.fontawesome.com/7393b3984f.js" crossorigin="anonymous"></script>
 <div class="account">
     <a href="/phpmotors/index.php"><img src="/phpmotors/images/site/logo.png" alt="logo"></a>
         <?php
@@ -8,7 +9,9 @@
             }
             ?>
     <div class='user'>
+        <a href='/phpmotors/search/'><i id="search" class="fa-solid fa-magnifying-glass"></i></a>
         <a href="/phpmotors/accounts/index.php?action=login">My account</a>
+       
         <?php
         if(isset($_SESSION['loggedin'])){
             echo '<a class="logout" href="/phpmotors/accounts/index.php?action=logout">Log out</a>';
