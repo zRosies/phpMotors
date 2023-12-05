@@ -129,11 +129,11 @@ function getInventoryByClassification($classificationId){
     $sql = 'SELECT images.imgId, images.invId, images.imgName, images.imgPath, inventory.invMake, inventory.invModel
             FROM images
             JOIN inventory ON images.invId = inventory.invId
-            WHERE images.imgPrimary = 0 AND images.invId = :invId'; // Added invId condition
+            WHERE images.imgPrimary = 0 AND images.invId = :invId'; 
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':invId', $invId, PDO::PARAM_STR);
     $stmt->execute();
-    $invInfo = $stmt->fetchAll(PDO::FETCH_ASSOC); // Use fetchAll instead of fetch
+    $invInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
     return $invInfo;
 }
