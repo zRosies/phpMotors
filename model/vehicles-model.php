@@ -52,15 +52,18 @@ function insertCarClassfication($carModel){
 }
 
 
-function insertCar($make,$model,$description,$image,$thumbnail,$price,$inStock,$color,$classificationId){
+function insertCar($invId, $invMiles, $make,$model,$description,$image,$thumbnail,$price,$inStock,$color,$classificationId,$currentYear){
     $db=phpmotorsConnect();
 
-    $sql = "INSERT INTO inventory (invMake,invModel,invDescription,invImage, invThumbnail, invPrice, invStock, invColor,classificationId) VALUES
-    (:invMake,:invModel,:invDescription,:invImage, :invThumbnail, :invPrice, :invStock, :invColor, :classificationId)";
+    $sql = "INSERT INTO inventory (invId, invMake, invModel, invDescription, invImage, invThumbnail, invPrice, invStock, invMiles, invColor, classificationId, invYear) VALUES
+    (:invId, :invMake,:invModel,:invDescription,:invImage, :invThumbnail, :invPrice, :invStock, :invMiles, :invColor, :classificationId, :invYear)";
 
     $stmt = $db->prepare($sql);
 
+    $stmt->bindValue(':invYear', $currentYear, PDO::PARAM_STR);
     $stmt->bindValue(':invMake', $make, PDO::PARAM_STR);
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_STR);
+    $stmt->bindValue(':invMiles', $invMiles, PDO::PARAM_STR);
     $stmt->bindValue(':invModel', $model, PDO::PARAM_STR);
     $stmt->bindValue(':invDescription', $description, PDO::PARAM_STR);
     $stmt->bindValue(':invImage', $image, PDO::PARAM_STR);
@@ -82,6 +85,7 @@ function updateVehicle($invMake, $invModel, $invDescription, $invImage, $invThum
  $db = phpmotorsConnect();
  $sql = 'UPDATE inventory SET invMake = :invMake, invModel = :invModel, invDescription = :invDescription, invImage = :invImage, invThumbnail = :invThumbnail, invPrice = :invPrice, invStock = :invStock, invColor = :invColor, classificationId = :classificationId WHERE invId = :invId';
  $stmt = $db->prepare($sql);
+
  $stmt->bindValue(':classificationId', $classificationId, PDO::PARAM_INT);
  $stmt->bindValue(':invMake', $invMake, PDO::PARAM_STR);
 $stmt->bindValue(':invModel', $invModel, PDO::PARAM_STR);
@@ -91,11 +95,19 @@ $stmt->bindValue(':invModel', $invModel, PDO::PARAM_STR);
  $stmt->bindValue(':invPrice', $invPrice, PDO::PARAM_STR);
  $stmt->bindValue(':invStock', $invStock, PDO::PARAM_INT);
  $stmt->bindValue(':invColor', $invColor, PDO::PARAM_STR);
- $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
- $stmt->execute();
- $rowsChanged = $stmt->rowCount();
- $stmt->closeCursor();
- return $rowsChanged;
+ $stmt->bindValue(':invId', $invId, PDO::PARAM_STR);
+ try {
+    $stmt->execute();
+    $rowsChanged = $stmt->rowCount();
+    $stmt->closeCursor();
+    return $rowsChanged;
+} catch (PDOException $e) {
+    // Log or print the error message
+    echo "Error: " . $e->getMessage();
+    // Or log the error to a file for further investigation
+    // error_log("Error: " . $e->getMessage(), 0);
+    return false; // Return a failure flag or handle the error accordingly
+}
 }
 
 function updateDelete($invMake, $invModel, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invColor,
@@ -122,12 +134,21 @@ function updateDelete($invMake, $invModel, $invDescription, $invImage, $invThumb
 function deleteVehicle($invId) {
     $db = phpmotorsConnect();
     $sql = 'DELETE FROM inventory WHERE invId = :invId';
+    
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
-    $stmt->execute();
-    $rowsChanged = $stmt->rowCount();
-    $stmt->closeCursor();
-    return $rowsChanged;
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_STR);
+    try {
+        $stmt->execute();
+        $rowsChanged = $stmt->rowCount();
+        $stmt->closeCursor();
+        return $rowsChanged;
+    } catch (PDOException $e) {
+        // Log or print the error message
+        echo "Error: " . $e->getMessage();
+        // Or log the error to a file for further investigation
+        // error_log("Error: " . $e->getMessage(), 0);
+        return false; // Return a failure flag or handle the error accordingly
+    }
    }
 
 

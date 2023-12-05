@@ -131,7 +131,7 @@ function getInventoryByClassification($classificationId){
             JOIN inventory ON images.invId = inventory.invId
             WHERE images.imgPrimary = 0 AND images.invId = :invId'; // Added invId condition
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_STR);
     $stmt->execute();
     $invInfo = $stmt->fetchAll(PDO::FETCH_ASSOC); // Use fetchAll instead of fetch
     $stmt->closeCursor();
@@ -240,15 +240,28 @@ function displayCarInfo($info , $additionalImg){
         return $id;
        }
        
-    function buildVehiclesSelect($vehicles) {
-        $prodList = '<select name="invId" id="invId">';
-        $prodList .= "<option>Choose a Vehicle</option>";
+       function buildVehiclesSelect($vehicles) {
+        $prodList = '<select name="selectedVehicle" id="selectedVehicle">';
+        $prodList .= "<option value=''>Choose a Vehicle</option>";
+        
         foreach ($vehicles as $vehicle) {
-         $prodList .= "<option value='$vehicle[invId]'>$vehicle[invMake] $vehicle[invModel]</option>";
+            $prodList .= "<option value='$vehicle[invId]'>$vehicle[invMake] $vehicle[invModel]</option>";
         }
+        
         $prodList .= '</select>';
+    
+        $prodList .= "<input type='hidden' name='invId' id='invId' value=''>";
+    
+        // JavaScript to set hidden input value based on selected option
+        $prodList .= "<script>
+                        document.getElementById('selectedVehicle').addEventListener('change', function() {
+                            var selectedValue = this.value;
+                            document.getElementById('invId').value = selectedValue;
+                        });
+                      </script>";
+    
         return $prodList;
-       }
+    }
 
     // Handles the file upload process and returns the path
     // The file path is stored into the database
@@ -279,6 +292,10 @@ function displayCarInfo($info , $additionalImg){
 
     function uploadFile($name, $tmpFilePath) {
         global $image_dir, $image_dir_path;
+        if (strpos($name, '-tn.') !== false) {
+            // Rename the file to avoid conflicts
+            $name = str_replace('-tn.', '', $name);
+        }
     
         // Check if the temporary file path and file name are not empty
         if (!empty($tmpFilePath) && !empty($name)) {
@@ -311,13 +328,8 @@ function displayCarInfo($info , $additionalImg){
     }
     
     function processImage($dir, $filename) {
-
         $dir = $dir . '/';
-    
-
         $image_path = $dir . $filename;
-    
-  
         $isThumbnail = strpos($filename, '-tn.') !== false;
     
         if ($isThumbnail) {
@@ -410,48 +422,67 @@ function displayCarInfo($info , $additionalImg){
         imagedestroy($old_image);
     } 
 
-    function getSearchInfo($query, $currentPage, $itemsPerPage){
+    function getSearchInfo($query, $page, $itemsToDisplay = 10){
         $db = phpmotorsConnect();
-        $offset = ($currentPage - 1) * $itemsPerPage;
-        $sql = "SELECT * FROM `inventory`
+        $offset = ($page - 1) * $itemsToDisplay;
+        $sql = "SELECT * FROM `inventory` 
+                WHERE 
+                    invDescription LIKE CONCAT('%', :query, '%') OR 
+                    invColor LIKE CONCAT('%', :query, '%') OR
+                    invYear LIKE CONCAT('%', :query, '%') OR
+                    invMake LIKE CONCAT('%', :query, '%')
+                LIMIT :offset, :itemsToDisplay;";
+        $stmt = $db->prepare($sql);        
+        $stmt->bindValue(':query', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':itemsToDisplay', $itemsToDisplay, PDO::PARAM_INT);
+        $stmt->execute();
+        $invInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();           
+    
+        return $invInfo;
+    }
+
+    function displaySearchInfo($arrayOfInfo, $query, $resultCount){
+       
+        $dv = '<div class="information">';
+        $dv .= "<h2>$resultCount Results for: $query </h2>";
+        foreach ($arrayOfInfo as $item) {
+   
+            $dv .= '<div>';
+            $dv .= "<a href='/phpmotors/vehicles/?action=car&carName=$item[invId]'>$item[invYear] $item[invMake] $item[invModel]</a>";   
+            $dv .= "<p>$item[invDescription]</p>";   
+            $dv .= '</div>';
+        }
+        $dv .= '</div>';
+        return $dv;
+        
+        
+    }
+
+    function displayNumberOfPages($query){
+        $db = phpmotorsConnect();
+            $sql = "SELECT * FROM `inventory` 
             WHERE 
                 invDescription LIKE CONCAT('%', :query, '%') OR 
                 invColor LIKE CONCAT('%', :query, '%') OR
                 invYear LIKE CONCAT('%', :query, '%') OR
                 invMake LIKE CONCAT('%', :query, '%')
-            LIMIT :itemsPerPage OFFSET :offset;";
-        $stmt = $db->prepare($sql);
-        $stmt->bindValue(':query', $query, PDO::PARAM_STR);
-        $stmt->bindValue(':itemsPerPage', $itemsPerPage, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();
-        $invInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $stmt->closeCursor();
+                ;";
+            $stmt = $db->prepare($sql);        
+            $stmt->bindValue(':query', $query, PDO::PARAM_STR);
+            $stmt->execute();
+            $invInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();           
+
         return $invInfo;
+
+     
+
     }
-    function displaySearchInfo($arrayOfInfo, $query, $itemsPerPage){
-         
-        $resultCount = count($arrayOfInfo);
-        $dv = '<div class="information">';
-        $dv .= "<h2>$resultCount Results for: $query </h2>";
-        foreach ($arrayOfInfo as $item) {
-            $dv .= '<div>';
-            $dv .= "<a href='/phpmotors/vehicles/?action=car&carName=$item[invId]'>$item[invYear] $item[invMake] $item[invModel]</a>";
-            $dv .= "<p>$item[invDescription]</p>";
-            $dv .= '</div>';
-        }
-        $dv .= '</div>';
+
+
     
-        // Add Pagination Links
-        $pagination = '<div class="pagination">';
-        $pageCount = ceil($resultCount / $itemsPerPage);
-        for ($i = 1; $i <= $pageCount; $i++) {
-            $pagination .= "<a href='/phpmotors/search?action=search&searchQuery=$query&page=$i'>$i</a>";
-        }
-        $pagination .= '</div>';
-    
-        return $dv . $pagination;
-    }
     
     
     

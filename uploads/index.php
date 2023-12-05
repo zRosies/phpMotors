@@ -30,20 +30,18 @@
     switch($action){
         case 'upload':
                 // Store the incoming vehicle id and primary picture indicator
-                $invId = filter_input(INPUT_POST, 'invId', FILTER_VALIDATE_INT);
-                $imgPrimary = filter_input(INPUT_POST, 'imgPrimary', FILTER_VALIDATE_INT);
-
-
-                
-                    
+                $invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_STRING);
+                $imgPrimary = filter_input(INPUT_POST, 'imgPrimary', FILTER_SANITIZE_STRING);
+             
+            
                 // Store the name of the uploaded image
                 $imgName = $_FILES['file1']['name'];
                 $imgTemp = $_FILES['file1']['tmp_name'];
                 // $tmpFilePath = $_FILES['file1']['name'];
-                    
+               
                 $imageCheck = checkExistingImage($imgName);
-                
-                    
+            
+                                   
                 if($imageCheck){
                 $message = '<p class="notice">An image by that name already exists.</p>';
                 } elseif (empty($invId) || empty($imgName)) {
@@ -82,12 +80,12 @@
             // Check that the file exists in that location
             if (file_exists($target)) {
             // Deletes the file in the folder
-            $result = unlink($target); 
+                $result = unlink($target); 
             }
                 
             // Remove from database only if physical file deleted
             if ($result) {
-            $remove = deleteImage($imgId);
+                $remove = deleteImage($imgId);
             }
                 
             // Set a message based on the delete result

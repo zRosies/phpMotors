@@ -37,7 +37,7 @@ $action= filter_input(INPUT_POST,'action');
 
        
         default:
-            $heroInfo = getInvItemInfo("KH4ZZ6M4ACZOQKFA");
+            $heroInfo = getInvItemInfo("50SPI165C5EW9AA9");
 
             $hero_img_path = $heroInfo['invImage'];
             $carId = $heroInfo['invId'];

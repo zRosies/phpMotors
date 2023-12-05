@@ -228,3 +228,47 @@ footer {
   justify-content: center;
   text-align: center;
 }
+
+form input {
+  width: 100%;
+  margin-top: 10px;
+}
+
+form {
+  width: 40%;
+  margin: 0 auto;
+}
+
+form button {
+  background: #2e2e2e;
+  color: #ffffff;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  width: 200px;
+  cursor: pointer;
+  margin: 20px auto;
+  transition: 0.3s ease-in-out;
+}
+
+form button:hover {
+  background: #3e3e3e;
+}
+
+.pagination a {
+  background: #2e2e2e;
+  color: #fff;
+  padding: 8px;
+  margin-right: 8px;
+  text-decoration: none;
+  margin-bottom: 1px;
+}
+
+.pagination a:hover {
+  background: #3d3d3d;
+}
+
+.current {
+  background: #335d96 !important;
+  transform: scale(1.2);
+}

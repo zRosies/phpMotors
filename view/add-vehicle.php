@@ -61,6 +61,14 @@
                                             
                     ?>
                 </select>
+
+            <label for="invMiles"> Miles
+                <input name='invMiles' id="invMiles" type="text" required <?php if(isset($invMiles)){echo "value='$invMiles'";}?>> 
+            </label>
+
+            <label for="invId"> Product id
+                <input name='invId' id="invId" type="text"  required <?php if(isset($invId)){echo "value='$invId'";}?>> 
+            </label>
         
             <label for="invMake"> Make
                 <input name='invMake' id="invMake" type="text" pattern="[A-Za-z]{3,30}" required <?php if(isset($invMake)){echo "value='$invMake'";}?>> 

@@ -69,7 +69,7 @@
             <button type='submit'>Delete</button>
             <input type="hidden" name="invId" value="
             <?php if(isset($invInfo['invId'])){ echo $invInfo['invId'];} 
-            elseif(isset($invId)){ echo $invId; } ?>
+            elseif(isset($invId)){ echo $invId; }?>
             ">
             <input type="hidden" name="action" value="delete">
 

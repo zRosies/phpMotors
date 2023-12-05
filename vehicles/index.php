@@ -97,6 +97,9 @@ require_once '../library/functions.php';
             $invPrice = trim(filter_input(INPUT_POST, 'invPrice', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION  ));
             $invStock = trim(filter_input(INPUT_POST, 'invStock', FILTER_VALIDATE_INT));
             $invColor = trim(filter_input(INPUT_POST, 'invColor',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+            $invId = trim(filter_input(INPUT_POST, 'invId',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+            $invMiles = trim(filter_input(INPUT_POST, 'invMiles',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+            $currentYear = date("Y");
 
             $checkMake = checkVarChar30($invMake);
             $checkModel = checkVarChar30($invModel);
@@ -122,7 +125,7 @@ require_once '../library/functions.php';
                 exit;
             }
 
-            $created = insertCar($invMake,$invModel,$invDescription,$invImage,$invThumbnail,$invPrice,$invStock,$invColor,$invclassificationId);
+            $created = insertCar($invId, $invMiles, $invMake,$invModel,$invDescription,$invImage,$invThumbnail,$invPrice,$invStock,$invColor,$invclassificationId, $currentYear);
 
             if($created >= 1){
                 $message = '<p class="message">Car added to the database </p>';
@@ -141,7 +144,7 @@ require_once '../library/functions.php';
                 echo json_encode($inventoryArray); 
                 break;
             case 'mod':
-                $invId = filter_input(INPUT_GET, 'invId', FILTER_VALIDATE_INT);
+                $invId = filter_input(INPUT_GET, 'invId', FILTER_SANITIZE_STRING);
                 $invInfo = getInvItemInfo($invId);
                 if(count($invInfo)<1){
                     $message = 'Sorry, no vehicle information could be found.';
@@ -161,8 +164,10 @@ require_once '../library/functions.php';
                 $invPrice = trim(filter_input(INPUT_POST, 'invPrice', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION  ));
                 $invStock = trim(filter_input(INPUT_POST, 'invStock', FILTER_VALIDATE_INT));
                 $invColor = trim(filter_input(INPUT_POST, 'invColor',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-                $invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT);
+                $invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_STRING);
 
+                
+         
                 $checkMake = checkVarChar30($invMake);
                 $checkModel = checkVarChar30($invModel);
                 $checkThumb = checkVarChar50($invImage);
@@ -192,6 +197,9 @@ require_once '../library/functions.php';
                 $updateResult = updateVehicle($invMake, $invModel, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invColor,
                 $invclassificationId, $invId);
 
+
+                print_r( $updateResult);
+               
                 if ($updateResult) {
                     $message = "<p class='response'>Congratulations, the $invMake $invModel was successfully updated.</p>";
                        $_SESSION['message'] = $message;
@@ -207,7 +215,7 @@ require_once '../library/functions.php';
                 
                 break;
             case 'del':
-                $invId = filter_input(INPUT_GET, 'invId', FILTER_VALIDATE_INT);
+                $invId = filter_input(INPUT_GET, 'invId', FILTER_SANITIZE_STRING);
                 $invInfo = getInvItemInfo($invId);
                 if (count($invInfo) < 1) {
                     $message = 'Sorry, no vehicle information could be found.';
@@ -223,9 +231,10 @@ require_once '../library/functions.php';
             case 'delete':
                     $invMake = filter_input(INPUT_POST, 'invMake', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                     $invModel = filter_input(INPUT_POST, 'invModel', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    $invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT);
+                    $invId = trim(filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_STRING));
                     
                     $deleteResult = deleteVehicle($invId);
+            
                     if ($deleteResult) {
                         $message = "<p class='notice'>Congratulations the, $invMake $invModel was successfully deleted.</p>";
                         $_SESSION['message'] = $message;

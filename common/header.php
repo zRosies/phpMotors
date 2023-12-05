@@ -9,7 +9,10 @@
             }
             ?>
     <div class='user'>
-        <a href='/phpmotors/search/'><i id="search" class="fa-solid fa-magnifying-glass"></i></a>
+        <a href='/phpmotors/search/'>
+        <span class="sr-only">Search</span>
+        <i id="search" class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        </a>
         <a href="/phpmotors/accounts/index.php?action=login">My account</a>
        
         <?php
