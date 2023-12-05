@@ -174,7 +174,7 @@ require_once '../library/functions.php';
                 $checkImg = checkVarChar50($invImage);
                 $checkColor = checkVarChar20($invColor);
                 $checkId = checkInt($invclassificationId);
-            
+             
     
                 if(empty($checkMake) || empty($checkModel) || empty($checkThumb) || empty($checkImg) || empty($checkColor) || empty($checkId)){
                     $message = '<p class="response"> Please, fill the form with the correct format before sending! </p>';
@@ -231,13 +231,13 @@ require_once '../library/functions.php';
                     $deleteResult = deleteVehicle($invId);
             
                     if ($deleteResult) {
-                        $message = "<p class='notice'>Congratulations the, $invMake $invModel was successfully deleted.</p>";
+                        $message = "<p class='response'>Congratulations the, $invMake $invModel was successfully deleted.</p>";
                         $_SESSION['message'] = $message;
                         // header('location: /phpmotors/vehicles/');
                         include  '../view/vehicle-man.php';
                         exit;
                     } else {
-                        $message = "<p class='notice'>Error: $invMake $invModel was not
+                        $message = "<p class='response'>Error: $invMake $invModel was not
                     deleted.</p>";
                         $_SESSION['message'] = $message;
                          include '../phpmotors/view/vehicle-man.php';
