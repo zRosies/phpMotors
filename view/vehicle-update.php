@@ -23,11 +23,7 @@
 </header>
     <main>
 
-        <?php
-            if(isset($message)){
-                echo $message;
-            }
-        ?>
+      
           <h1>
             <?php if(isset($invInfo['invMake']) && isset($invInfo['invModel'])){ 
 	                echo "Modify $invInfo[invMake] $invInfo[invModel]";
@@ -38,6 +34,11 @@
             }?>
         
             </h1>
+              <?php
+            if(isset($message)){
+                echo $message;
+            }
+         ?>
         
         <form action='/phpmotors/vehicles/index.php?action=updateVehicle' method="post" >
           
@@ -68,7 +69,7 @@
             <label for="invDescription"> Description
                 <textarea name='invDescription' id="invDescription" rows="4" required >
                     <?php if(isset($invDescription)){echo trim($invDescription);}
-                         elseif(isset($invInfo['invDescription'])) {echo "value='$invInfo[invDescription]'"; }
+                         elseif(isset($invInfo['invDescription'])) {echo "$invInfo[invDescription]"; }
                     ?>
                 </textarea>
             </label>

@@ -19,7 +19,7 @@ function checkVarChar30($clientInput){
 
 function checkVarChar50($clientInput){
     $pattern = "/^.*\.(jpg|jpeg|png|gif|bmp)$/";
-    return preg_match($pattern, $clientInput) && strlen($clientInput) <= 50;
+    return preg_match($pattern, $clientInput) && strlen($clientInput) <= 100;
 
 }
 

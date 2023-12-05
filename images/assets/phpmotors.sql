@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05-Dez-2023 às 14:51
+-- Tempo de geração: 05-Dez-2023 às 15:40
 -- Versão do servidor: 10.4.28-MariaDB
 -- versão do PHP: 8.2.4
 
@@ -69,7 +69,8 @@ CREATE TABLE `clients` (
 
 INSERT INTO `clients` (`clientId`, `clientFirstname`, `clientLastname`, `clientEmail`, `clientPassword`, `clientLevel`, `comment`) VALUES
 (1, 'Test', 'Test', 'test@test.com', '$2y$10$cfqtprM4SNLCdPll8S6U6umR3hX4NDFsE0RNf9Pawhdg2k19xmTy6', '1', NULL),
-(2, 'Admin', 'Test', 'admin@test.com', '$2y$10$QuMpfnKu2kJDmc9LwOqjEuazCiCAXFC1QzQrN5ej6IfISu3llnzWO', '3', NULL);
+(2, 'Admin', 'Test', 'admin@test.com', '$2y$10$QuMpfnKu2kJDmc9LwOqjEuazCiCAXFC1QzQrN5ej6IfISu3llnzWO', '3', NULL),
+(3, 'Gustavo', 'Bispo', 'gt@gmail.com', '$2y$10$wYOdgwErSkFlBay0hUnny.0aXBWtHAu/7al1urVkxkahadviqntiy', '3', NULL);
 
 -- --------------------------------------------------------
 
@@ -272,7 +273,7 @@ INSERT INTO `inventory` (`invId`, `invYear`, `invMake`, `invModel`, `invDescript
 ('XH3TABLGEPGAZ9E1', 2016, 'Hyundai', 'Accent', 'The 2016 Accent hatchback offers 5 seating capacity that is ideal for a family car. Its upscale seat upholstery makes it comfortable. It also comes with satisfying safety features. For the infotainment system, it includes USB and Bluetooth connections for mobile devices as well as AM/FM radio and a CD player. The cabin also looks elegant and feels comfortable.', 16999.00, 40081, 'White', 1, '/phpmotors/images/vehicles/2016-hyundai-accent.jpg', '/phpmotors/images/vehicles/2016-hyundai-accent-tn.jpg', 0),
 ('XK1GOCNU04BESPML', 2017, 'Ford', 'Transit Connect', 'A hard to find 2017 Ford Transit Connect XLT High Roof, includes Satellite Radio Ready, Rear View Camera, Parking Sensors, Fold-Away Third Row, Quad Seats, Rear Air Conditioning, and Automatic Transmission. This van is a prime candidate for an RV conversion.', 24998.00, 47453, 'White', 5, '/phpmotors/images/vehicles/2017-ford-transit.jpg', '/phpmotors/images/vehicles/2017-ford-transit-tn.jpg', 0),
 ('XUYURBSQQIUO01O8', 2017, 'Porsche', 'Panamera', 'You have to drive this 2017 Porsche Panamera 4S AWD with Leather Seats, Driver Assistance Package, Sunroof/Moonroof, Navigation System, Alloy Wheels, Bluetooth, Backup Camera, Blind Spot Monitoring, Parking Sensors, CarPlay and Automatic transmission.', 88998.00, 13074, 'Black', 3, '/phpmotors/images/vehicles/2017-porsche-panamera.jpg', '/phpmotors/images/vehicles/2017-porsche-panamera-tn.jpg', 0),
-('YFSZ83AQ4661H27A', 2017, 'Mercedes', 'McLaren', 'High end luxury car for the person who wants it all. This car is on consignment from Jay Leno.', 650000.00, 21983, 'Silver', 6, '/phpmotors/images/vehicles/2017-mercedes-mclaren.jpg', '/phpmotors/images/vehicles/2017-mercedes-mclaren-tn.jpg', 0),
+('YFSZ83AQ4661H27A', 2017, 'Mercedes', 'McLaren', 'value=&#039;High end luxury car for the person who wants it all. This car is on consignment from Jay Leno.&#039;', 650000.00, 21983, 'Silver', 2, '/phpmotors/images/vehicles/2017-mercedes-mclaren.jpg', '/phpmotors/images/vehicles/2017-mercedes-mclaren-tn.jpg', 4),
 ('YJCPI2LGKL6IZ27S', 2014, 'Chevrolet', 'Cruze', 'Points in the 2014 Chevrolet Cruze\'s favor include a lineup of solid-performing, high-efficiency four-cylinder engines, a sophisticated ride and handling balance, and the car\'s sharp, non-gimmicky design inside and out. Passenger quarters are a smidge tight for this class, but most consumers will find them adequate. The Cruze also offers an unusually large trunk for a compact sedan.', 47223.00, 18999, 'Red', 7, '/phpmotors/images/vehicles/2014-chevy-cruze.jpg', '/phpmotors/images/vehicles/2014-chevy-cruze-tn.jpg', 0),
 ('ZOLTYL902ZIE6H1Z', 2016, 'Hyundai', 'Equus', 'The Hyundai Equus is a full-size luxury sedan with plenty of seating for up to five people. If you\'ve been looking for an indulgent sedan for your growing family, the 2016 Equus offers a spacious cabin with an additional 16.7 cubic feet of trunk space for groceries, sports gear, and more. Standard 60/40-split-folding seats also make it easy to extend trunk space for longer items as needed, making this sedan as versatile as it is elegant.', 41588.00, 25000, 'Black', 7, '/phpmotors/images/vehicles/2016-hyundai-equus.jpg', '/phpmotors/images/vehicles/2016-hyundai-equus-tn.jpg', 0);
 
@@ -324,7 +325,7 @@ ALTER TABLE `carclassification`
 -- AUTO_INCREMENT de tabela `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `clientId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `clientId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `images`

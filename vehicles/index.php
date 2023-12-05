@@ -170,10 +170,11 @@ require_once '../library/functions.php';
                 
                 $checkMake = checkVarChar30($invMake);
                 $checkModel = checkVarChar30($invModel);
-                $checkThumb = checkVarChar50($invImage);
-                $checkImg = checkVarChar50($invThumbnail);
+                $checkThumb = checkVarChar50($invThumbnail);
+                $checkImg = checkVarChar50($invImage);
                 $checkColor = checkVarChar20($invColor);
                 $checkId = checkInt($invclassificationId);
+            
     
                 if(empty($checkMake) || empty($checkModel) || empty($checkThumb) || empty($checkImg) || empty($checkColor) || empty($checkId)){
                     $message = '<p class="response"> Please, fill the form with the correct format before sending! </p>';
