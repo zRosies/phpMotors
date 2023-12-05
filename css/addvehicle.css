@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  background-image: url('../images/site/small_check.jpg');
+  background-image: url("../images/site/small_check.jpg");
   padding: 0;
 }
 
@@ -60,6 +60,7 @@ header a:hover {
   text-align: center;
   margin-top: 30px;
   font-weight: 800;
+  margin-bottom: 20px;
 }
 
 input:focus:invalid {
