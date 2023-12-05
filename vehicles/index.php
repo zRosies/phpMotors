@@ -164,10 +164,10 @@ require_once '../library/functions.php';
                 $invPrice = trim(filter_input(INPUT_POST, 'invPrice', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION  ));
                 $invStock = trim(filter_input(INPUT_POST, 'invStock', FILTER_VALIDATE_INT));
                 $invColor = trim(filter_input(INPUT_POST, 'invColor',FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-                $invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_STRING);
+                $invId =    trim( filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_STRING));
 
                 
-         
+                
                 $checkMake = checkVarChar30($invMake);
                 $checkModel = checkVarChar30($invModel);
                 $checkThumb = checkVarChar50($invImage);
@@ -182,10 +182,7 @@ require_once '../library/functions.php';
     
                 }
 
-                
-    
-    
-               
+
                 if(empty($invMake) || empty($invModel) || empty($invDescription) || empty($invImage) || empty($invThumbnail) || empty($invPrice) || empty($invStock) || empty($invColor) || empty($invclassificationId)){
                     $message = '<p class="response"> Please, fill out the form before sending! :) </p>';
     
@@ -196,14 +193,11 @@ require_once '../library/functions.php';
 
                 $updateResult = updateVehicle($invMake, $invModel, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invColor,
                 $invclassificationId, $invId);
-
-
-                print_r( $updateResult);
                
                 if ($updateResult) {
                     $message = "<p class='response'>Congratulations, the $invMake $invModel was successfully updated.</p>";
                        $_SESSION['message'] = $message;
-                       header('location: /phpmotors/vehicles/');
+                       include '../view/vehicle-update.php';
                        exit;
                    } else {
                        $message = "<p class='response'>Error. the $invMake $invModel was not updated.</p>";
@@ -238,13 +232,14 @@ require_once '../library/functions.php';
                     if ($deleteResult) {
                         $message = "<p class='notice'>Congratulations the, $invMake $invModel was successfully deleted.</p>";
                         $_SESSION['message'] = $message;
-                        header('location: /phpmotors/vehicles/');
+                        // header('location: /phpmotors/vehicles/');
+                        include  '../view/vehicle-man.php';
                         exit;
                     } else {
                         $message = "<p class='notice'>Error: $invMake $invModel was not
                     deleted.</p>";
                         $_SESSION['message'] = $message;
-                        header('location: /phpmotors/vehicles/');
+                         include '../phpmotors/view/vehicle-man.php';
                         exit;
                     }
                     break;

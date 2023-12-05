@@ -85,7 +85,7 @@
             <label for="invDescription"> Description
                 <textarea name='invDescription' id="invDescription" rows="4" required >
                     <?php if(isset($invDescription)){echo trim($invDescription);}
-                        if(isset($invDescription)){ echo "value='$invDescription'"; } elseif(isset($invInfo['invDescription'])) {echo "$invInfo[invDescription]"; }
+                         elseif(isset($invInfo['invDescription'])) {echo "value='$invInfo[invDescription]'"; }
                     ?>
                 </textarea>
             </label>
