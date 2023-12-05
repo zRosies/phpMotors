@@ -50,7 +50,14 @@
                     echo "<h3>Inventory Management</h3>
                         <p> Use this link to manage the inventory</p>
                         <a href='/phpmotors/vehicles/'>Vehicle Management</a>
-                    ";
+                    
+                    
+                      <h3>Car Image management</h3>
+                       <p> Use this link to manage the car images</p>
+                        <a href='/phpmotors/uploads/'>Image Management</a>
+
+                      
+                      ";
 
                 }
             ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05-Dez-2023 às 15:40
+-- Tempo de geração: 05-Dez-2023 às 16:10
 -- Versão do servidor: 10.4.28-MariaDB
 -- versão do PHP: 8.2.4
 
@@ -44,8 +44,7 @@ INSERT INTO `carclassification` (`classificationId`, `classificationName`) VALUE
 (5, 'Van'),
 (6, 'Luxury'),
 (7, 'Sedan'),
-(8, 'Hybrid'),
-(9, 'Test');
+(8, 'Hybrid');
 
 -- --------------------------------------------------------
 
@@ -195,7 +194,9 @@ INSERT INTO `images` (`imgId`, `invId`, `imgName`, `imgPath`, `imgDate`, `imgPri
 (101, 'WJHXR08G8OOVS0US', '2019-hyundai-venue.jpg', '/phpmotors/images/vehicles/2019-hyundai-venue.jpg', '2021-11-24 22:09:36', 0),
 (102, 'WJHXR08G8OOVS0US', '2019-hyundai-venue-tn.jpg', '/phpmotors/images/vehicles/2019-hyundai-venue-tn.jpg', '2021-11-24 22:09:36', 0),
 (103, 'DXEU3TCEN4OL119O', '2019-porsche-cayman.jpg', '/phpmotors/images/vehicles/2019-porsche-cayman.jpg', '2021-11-24 22:10:05', 0),
-(104, 'DXEU3TCEN4OL119O', '2019-porsche-cayman-tn.jpg', '/phpmotors/images/vehicles/2019-porsche-cayman-tn.jpg', '2021-11-24 22:10:05', 0);
+(104, 'DXEU3TCEN4OL119O', '2019-porsche-cayman-tn.jpg', '/phpmotors/images/vehicles/2019-porsche-cayman-tn.jpg', '2021-11-24 22:10:05', 0),
+(105, 'B2BCB4', 'jeep.jpg', '/phpmotors/images/vehicles/jeep.jpg', '2023-12-05 15:06:01', 1),
+(106, 'B2BCB4', 'jeep-tn.jpg', '/phpmotors/images/vehicles/jeep-tn.jpg', '2023-12-05 15:06:01', 1);
 
 -- --------------------------------------------------------
 
@@ -237,6 +238,7 @@ INSERT INTO `inventory` (`invId`, `invYear`, `invMake`, `invModel`, `invDescript
 ('80KBY4LSKD9EXMVG', 2018, 'Hyundai', 'Tucson', 'The 2018 Hyundai Tucson\\\'s delivers good value while competing with rivals by offering a roomy and comfortable interior and a long list of available features.', 22000.00, 19568, 'White', 1, '/phpmotors/images/vehicles/2018-hyundai-tucson.jpg', '/phpmotors/images/vehicles/2018-hyundai-tucson-tn.jpg', 0),
 ('8TPH7FZU71L5COU6', 2018, 'GM', 'Hummer', 'Do you have 6 kids and like to go offroading? The Hummer gives you the large interior with an engine to get you out of any muddy or rocky situation.', 58800.00, 59657, 'Silver', 5, '/phpmotors/images/vehicles/2018-gm-hummer.jpg', '/phpmotors/images/vehicles/2018-gm-hummer-tn.jpg', 0),
 ('9XL63EK220DOGIMX', 2018, 'Chevy', 'Camaro', 'If you want to look cool this is the car you need! This car has great performance at an affordable price. Own it today!', 25000.00, 105136, 'Black', 3, '/phpmotors/images/vehicles/2018-chevy-camaro.jpg', '/phpmotors/images/vehicles/2018-chevy-camaro-tn.jpg', 0),
+('B2BCB4', 2023, 'Jeep', 'Reneage', 'AWESOME JEEP', 1200000.00, 1200, 'Black', 1, '/phpmotors/images/vehicles/jeep.jpg', '/phpmotors/images/vehicles/jeep-tn.jpg', 3),
 ('CHOCO4W7M50M2B9I', 2018, 'GMC', 'Yukon', 'The Yukon projects a commanding presence on the road, and its most striking design elements include a massive grille, winged headlights, a body-colored front bumper, pronounced fenders and deep character lines on the edges of its hood. The SUV’s profile is upright and sturdy, with a blocky tail end. Standard 18-inch wheels ground the Yukon.', 53199.00, 68777, 'Black', 1, '/phpmotors/images/vehicles/2018-gmc-yukon.jpg', '/phpmotors/images/vehicles/2018-gmc-yukon-tn.jpg', 0),
 ('DXEU3TCEN4OL119O', 2019, 'Porsche', 'Cayman', 'A siren on wheels. It will lure you to the road, and you will never look back! The Cayman\\\'s joyful driving demeanor, powerful flat-four engines, and stunning styling make it a favorite for sports car enthusists.', 65000.00, 71222, 'Metalic blue', 3, '/phpmotors/images/vehicles/2019-porsche-cayman.jpg', '/phpmotors/images/vehicles/2019-porsche-cayman-tn.jpg', 0),
 ('DYDNKCN15NSTNJOK', 2019, 'Ford', 'F250', 'This Ford F250 Lariat with Long Bed, Bed Cover, 4WD/AWD, Leather Seats, Satellite Radio Ready, Parking Sensors. and Automatic transmission is ready to be put to work. It is a tough truck, but drives and rides like a luxury car. Come drive it.', 59998.00, 22351, 'Red', 4, '/phpmotors/images/vehicles/2019-ford-f250.jpg', '/phpmotors/images/vehicles/2019-ford-f250-tn.jpg', 0),
@@ -263,7 +265,6 @@ INSERT INTO `inventory` (`invId`, `invYear`, `invMake`, `invModel`, `invDescript
 ('R4QPNEYB8FR04MH0', 2019, 'Cadillac', 'Escalade', 'This stylin car is great for any occasion from going to the beach to meeting the president. The luxurious inside makes this car a home away from home.', 75195.00, 48951, 'Black', 6, '/phpmotors/images/vehicles/2019-cadillac-escalade.jpg', '/phpmotors/images/vehicles/2019-cadillac-escalade-tn.jpg', 0),
 ('RBGYTI9KA5J61JSM', 2018, 'Volkswagen', 'Golf', '2018 Volkswagen Golf R 4-Door AWD with Sunroof/Moonroof, Navigation System, Adaptive Cruise Control, Alloy Wheels, Bluetooth, Adaptive Suspension, Backup Camera, Remote Start, Premium Package, Heated Seats, Cold Weather Package. Fantastic commuting vehicle.', 37995.00, 25414, 'Yellow', 1, '/phpmotors/images/vehicles/2018-volkswagen-golf.jpg', '/phpmotors/images/vehicles/2018-volkswagen-golf-tn.jpg', 0),
 ('RP2YPNOV4PTPWRX4', 1921, 'Ford', 'Model T', 'The Ford Model T can be a bit tricky to drive. It was the first car to be put into mass production. You can get it in any color you want as long as it\'s black.', 30000.00, 2100, 'Black', 2, '/phpmotors/images/vehicles/1921-ford-model-t.jpg', '/phpmotors/images/vehicles/1921-ford-model-t-tn.jpg', 0),
-('T7KSKKROJHT0NT6O', 2013, 'Volvo', 'XC90', 'Intuitively yours. Advanced technology helps connect your drive to personalized comfort and mobility.', 65321.00, 45875, 'White', 8, '', '', 0),
 ('T7KSKKROJHT0NT70', 2013, 'Volvo', 'XC90', 'Intuitively yours. Advanced technology helps connect your drive to personalized comfort and mobility.', 65321.00, 45875, 'White', 8, '/phpmotors/images/vehicles/2013-volvo-xc90.jpg', '/phpmotors/images/vehicles/2013-volvo-xc90-tn.jpg', 0),
 ('VYJNBY0DOWFY8ISO', 2019, 'Ford', 'Escape', 'This Ford Escape SE AWD comes with Adaptive Cruise Control, Alloy Wheels, Bluetooth, Backup Camera, Blind Spot Monitoring, Heated Seats and a 6-Speed Automatic transmission. It is super clean and ready to go home with you.', 14995.00, 68521, 'White', 1, '/phpmotors/images/vehicles/2019-ford-escape.jpg', '/phpmotors/images/vehicles/2019-ford-escape-tn.jpg', 0),
 ('W0C4AL34GL32MNKC', 2021, 'Honda', 'Pilot', 'Honda Pilot Elite AWD with Leather Seats, Sunroof/Moonroof, Navigation System, Alloy Wheels, Third Row Seating, Bluetooth, Backup Camera, Heated Seats, Android Auto, CarPlay, and a 9-Speed Automatic transmission. This Pilot can haul people, toys and gear. A perfect all around vehicle.', 42995.00, 17881, 'Black', 5, '/phpmotors/images/vehicles/2021-honda-pilot.jpg', '/phpmotors/images/vehicles/2021-honda-pilot-tn.jpg', 0),
@@ -273,7 +274,7 @@ INSERT INTO `inventory` (`invId`, `invYear`, `invMake`, `invModel`, `invDescript
 ('XH3TABLGEPGAZ9E1', 2016, 'Hyundai', 'Accent', 'The 2016 Accent hatchback offers 5 seating capacity that is ideal for a family car. Its upscale seat upholstery makes it comfortable. It also comes with satisfying safety features. For the infotainment system, it includes USB and Bluetooth connections for mobile devices as well as AM/FM radio and a CD player. The cabin also looks elegant and feels comfortable.', 16999.00, 40081, 'White', 1, '/phpmotors/images/vehicles/2016-hyundai-accent.jpg', '/phpmotors/images/vehicles/2016-hyundai-accent-tn.jpg', 0),
 ('XK1GOCNU04BESPML', 2017, 'Ford', 'Transit Connect', 'A hard to find 2017 Ford Transit Connect XLT High Roof, includes Satellite Radio Ready, Rear View Camera, Parking Sensors, Fold-Away Third Row, Quad Seats, Rear Air Conditioning, and Automatic Transmission. This van is a prime candidate for an RV conversion.', 24998.00, 47453, 'White', 5, '/phpmotors/images/vehicles/2017-ford-transit.jpg', '/phpmotors/images/vehicles/2017-ford-transit-tn.jpg', 0),
 ('XUYURBSQQIUO01O8', 2017, 'Porsche', 'Panamera', 'You have to drive this 2017 Porsche Panamera 4S AWD with Leather Seats, Driver Assistance Package, Sunroof/Moonroof, Navigation System, Alloy Wheels, Bluetooth, Backup Camera, Blind Spot Monitoring, Parking Sensors, CarPlay and Automatic transmission.', 88998.00, 13074, 'Black', 3, '/phpmotors/images/vehicles/2017-porsche-panamera.jpg', '/phpmotors/images/vehicles/2017-porsche-panamera-tn.jpg', 0),
-('YFSZ83AQ4661H27A', 2017, 'Mercedes', 'McLaren', 'value=&#039;High end luxury car for the person who wants it all. This car is on consignment from Jay Leno.&#039;', 650000.00, 21983, 'Silver', 2, '/phpmotors/images/vehicles/2017-mercedes-mclaren.jpg', '/phpmotors/images/vehicles/2017-mercedes-mclaren-tn.jpg', 4),
+('YFSZ83AQ4661H27A', 2017, 'Mercedes', 'McLaren', '&#039;High end luxury car for the person who wants it all. This car is on consignment from Jay Leno.&#039;&#039;&#039;', 650000.00, 21983, 'Silver', 6, '/phpmotors/images/vehicles/2017-mercedes-mclaren.jpg', '/phpmotors/images/vehicles/2017-mercedes-mclaren-tn.jpg', 2),
 ('YJCPI2LGKL6IZ27S', 2014, 'Chevrolet', 'Cruze', 'Points in the 2014 Chevrolet Cruze\'s favor include a lineup of solid-performing, high-efficiency four-cylinder engines, a sophisticated ride and handling balance, and the car\'s sharp, non-gimmicky design inside and out. Passenger quarters are a smidge tight for this class, but most consumers will find them adequate. The Cruze also offers an unusually large trunk for a compact sedan.', 47223.00, 18999, 'Red', 7, '/phpmotors/images/vehicles/2014-chevy-cruze.jpg', '/phpmotors/images/vehicles/2014-chevy-cruze-tn.jpg', 0),
 ('ZOLTYL902ZIE6H1Z', 2016, 'Hyundai', 'Equus', 'The Hyundai Equus is a full-size luxury sedan with plenty of seating for up to five people. If you\'ve been looking for an indulgent sedan for your growing family, the 2016 Equus offers a spacious cabin with an additional 16.7 cubic feet of trunk space for groceries, sports gear, and more. Standard 60/40-split-folding seats also make it easy to extend trunk space for longer items as needed, making this sedan as versatile as it is elegant.', 41588.00, 25000, 'Black', 7, '/phpmotors/images/vehicles/2016-hyundai-equus.jpg', '/phpmotors/images/vehicles/2016-hyundai-equus-tn.jpg', 0);
 
@@ -331,7 +332,7 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT de tabela `images`
 --
 ALTER TABLE `images`
-  MODIFY `imgId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `imgId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- Restrições para despejos de tabelas
